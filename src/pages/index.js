@@ -1,10 +1,16 @@
-import React from 'react'
-import Link from 'gatsby-link'
-import Masonry from 'react-masonry-component'
-import Img from 'gatsby-image'
+import React from "react";
+import Link from "gatsby-link";
+import Img from "gatsby-image";
+import styled from "styled-components";
+
+const Test = styled.div`
+  width: 100px;
+  height: 100px;
+  background-color: red;
+`;
 
 const IndexPage = ({ data }) => (
-  <Masonry className="showcase">
+  <div>
     {data.allDatoCmsClothingItem.edges.map(({ node: item }) => (
       <div key={item.id} className="showcase__item">
         <figure className="card">
@@ -19,10 +25,10 @@ const IndexPage = ({ data }) => (
         </figure>
       </div>
     ))}
-  </Masonry>
-)
+  </div>
+);
 
-export default IndexPage
+export default IndexPage;
 
 export const query = graphql`
   query IndexQuery {
@@ -41,4 +47,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;
