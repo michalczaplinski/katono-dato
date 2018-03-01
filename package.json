@@ -1,8 +1,8 @@
 {
-  "name": "gatsby-datocms-demo",
-  "description": "Gatsby DatoCMS creative portfolio demo",
+  "name": "Katono-website",
+  "description": "Katono website",
   "version": "1.0.0",
-  "author": "Stefano Verna <s.verna@datocms.com>",
+  "author": "Michal Czaplinski <mmczaplinski@gmail.com>",
   "dependencies": {
     "dotenv": "4.0.0",
     "gatsby": "^1.9.119",
@@ -15,8 +15,6 @@
     "gatsby-source-filesystem": "1.5.9",
     "gatsby-transformer-remark": "1.7.23",
     "normalize.css": "^7.0.0",
-    "react-slick": "^0.17.1",
-    "slick-carousel": "^1.8.1",
     "styled-components": "^3.1.4"
   },
   "keywords": [

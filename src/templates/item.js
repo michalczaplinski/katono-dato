@@ -1,10 +1,6 @@
 import React from "react";
-import Slider from "react-slick";
 import { HelmetDatoCms } from "gatsby-source-datocms";
 import Img from "gatsby-image";
-
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 export default ({ data }) => (
   <article className="sheet">
@@ -12,13 +8,7 @@ export default ({ data }) => (
     <div className="sheet__inner">
       <h1 className="sheet__title">{data.datoCmsClothingItem.title}</h1>
       <p className="sheet__lead">{data.datoCmsClothingItem.excerpt}</p>
-      <div className="sheet__slider">
-        <Slider infinite slidesToShow={2} arrows>
-          {data.datoCmsClothingItem.gallery.map(({ resize }) => (
-            <img key={resize.src} src={resize.src} alt="hi" />
-          ))}
-        </Slider>
-      </div>
+      <div className="sheet__slider" />
       <div
         className="sheet__body"
         dangerouslySetInnerHTML={{

@@ -3,22 +3,16 @@ import Link from "gatsby-link";
 import Img from "gatsby-image";
 import styled from "styled-components";
 
-const Test = styled.div`
-  width: 100px;
-  height: 100px;
-  background-color: red;
-`;
-
 const IndexPage = ({ data }) => (
   <div>
     {data.allDatoCmsClothingItem.edges.map(({ node: item }) => (
-      <div key={item.id} className="showcase__item">
-        <figure className="card">
-          <Link to={`/items/${item.slug}`} className="card__image">
+      <div key={item.id}>
+        <figure>
+          <Link to={`/items/${item.slug}`}>
             <Img sizes={item.coverImage.sizes} />
           </Link>
-          <figcaption className="card__caption">
-            <h6 className="card__title">
+          <figcaption>
+            <h6>
               <Link to={`/items/${item.slug}`}>{item.title}</Link>
             </h6>
           </figcaption>
@@ -39,7 +33,7 @@ export const query = graphql`
           title
           slug
           coverImage {
-            sizes(maxWidth: 450, imgixParams: { fm: "jpg", auto: "compress" }) {
+            sizes(maxWidth: 250, imgixParams: { fm: "jpg", auto: "compress" }) {
               ...GatsbyDatoCmsSizes
             }
           }

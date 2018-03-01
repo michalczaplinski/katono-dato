@@ -4,7 +4,8 @@ import Link from "gatsby-link";
 import { HelmetDatoCms } from "gatsby-source-datocms";
 
 import "normalize.css";
-import "../styles/index.css";
+
+import Topbar from "../components/Topbar";
 
 const Layout = ({ children, data }) => (
   <div>
@@ -12,12 +13,13 @@ const Layout = ({ children, data }) => (
       favicon={data.datoCmsSite.faviconMetaTags}
       seo={data.datoCmsHome.seoMetaTags}
     />
+    <Topbar />
     {children()}
   </div>
 );
 
 Layout.propTypes = {
-  children: PropTypes.func
+  children: PropTypes.func.isRequired
 };
 
 export default Layout;
