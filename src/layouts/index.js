@@ -1,15 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Link from "gatsby-link";
 import { HelmetDatoCms } from "gatsby-source-datocms";
-import { range } from "lodash";
+// import { range } from "lodash";
 import styled from "styled-components";
 
 import "normalize.css";
 import "../styles/index.css";
 
 import Topbar from "../components/Topbar";
-import { Grid, Column } from "../components/Grid";
 
 const PageContainer = styled.div`
   position: relative;
@@ -29,31 +27,18 @@ const PageInnerContainer = styled.div`
   height: 100%;
 `;
 
-const Layout = ({ children, data }) => (
+const Layout = ({ children, data, location }) => (
   <div>
     <HelmetDatoCms
       favicon={data.datoCmsSite.faviconMetaTags}
       seo={data.datoCmsHome.seoMetaTags}
     />
-    <Topbar />
-    {/* {children()} */}
+    <Topbar showBackButton={location.pathname !== "/"} />
     <PageContainer>
-      <PageInnerContainer>
-        <Grid>
-          {range(30).map(n => (
-            <Column>
-              <h1>{n}</h1>
-            </Column>
-          ))}
-        </Grid>
-      </PageInnerContainer>
+      <PageInnerContainer>{children()}</PageInnerContainer>
     </PageContainer>
   </div>
 );
-
-Layout.propTypes = {
-  children: PropTypes.func.isRequired
-};
 
 export default Layout;
 

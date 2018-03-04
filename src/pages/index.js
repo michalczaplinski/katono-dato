@@ -1,25 +1,16 @@
 import React from "react";
-import Link from "gatsby-link";
-import Img from "gatsby-image";
-import styled from "styled-components";
+import PropTypes from "prop-types";
+import { Grid, Box } from "../components/Grid";
+import ItemCard from "../components/ItemCard";
 
 const IndexPage = ({ data }) => (
-  <div>
+  <Grid>
     {data.allDatoCmsClothingItem.edges.map(({ node: item }) => (
-      <div key={item.id}>
-        <figure>
-          <Link to={`/items/${item.slug}`}>
-            <Img sizes={item.coverImage.sizes} />
-          </Link>
-          <figcaption>
-            <h6>
-              <Link to={`/items/${item.slug}`}>{item.title}</Link>
-            </h6>
-          </figcaption>
-        </figure>
-      </div>
+      <Box key={item.id}>
+        <ItemCard item={item} />
+      </Box>
     ))}
-  </div>
+  </Grid>
 );
 
 export default IndexPage;
@@ -32,8 +23,12 @@ export const query = graphql`
           id
           title
           slug
+          description
+          price
+          size
+          tags
           coverImage {
-            sizes(maxWidth: 250, imgixParams: { fm: "jpg", auto: "compress" }) {
+            sizes(maxWidth: 500, imgixParams: { fm: "jpg", auto: "compress" }) {
               ...GatsbyDatoCmsSizes
             }
           }

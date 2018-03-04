@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-const Column = styled.div``;
+const Box = styled.div`
+  margin-bottom: 10px;
+  margin-top: 10px;
+`;
 
 const Grid = styled.div`
   display: flex;
@@ -12,8 +15,7 @@ const Grid = styled.div`
     display: block;
   }
 
-  ${Column} {
-    background-color: salmon;
+  ${Box} {
     width: 100%;
 
     @media (min-width: 401px) {
@@ -31,4 +33,4 @@ const Grid = styled.div`
   }
 `;
 
-export { Grid, Column };
+export { Grid, Box };

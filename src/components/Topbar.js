@@ -1,6 +1,11 @@
 import React from "react";
-import styled, { injectGlobal } from "styled-components";
-import katonoLogo from "../static/vectorpaint.svg";
+import styled from "styled-components";
+import Link from "gatsby-link";
+
+import katonoLogo from "../static/katono-logo.svg";
+import shoppingCart from "../static/shopping-cart.svg";
+import backArrow from "../static/back-arrow.svg";
+
 import "../styles/fonts.css";
 
 const StyledTopbar = styled.div`
@@ -17,7 +22,7 @@ const StyledTopbar = styled.div`
   border: 0px;
 `;
 
-const Icon = styled.div`
+const Logo = styled.div`
   height: 100%;
   width: 50px;
   background-position: bottom 2px left 10px;
@@ -29,20 +34,49 @@ const Icon = styled.div`
 const Title = styled.div`
   font-family: "Permanent Marker", cursive;
   font-size: 34px;
+  color: black;
+  decoration: none;
 `;
 
 const Cart = styled.div`
   height: 100%;
+  width: 50px;
+  background-position: bottom 10px right 10px;
+  background-size: 60%;
+  background-image: url(${shoppingCart});
+  background-repeat: no-repeat;
+  cursor: pointer;
 `;
 
-export default class Topbar extends React.Component {
-  render() {
-    return (
-      <StyledTopbar>
-        <Icon />
-        <Title>KATONO</Title>
-        <Cart>cart</Cart>
-      </StyledTopbar>
-    );
-  }
-}
+const BackButton = styled.div`
+  height: 100%;
+  width: 50px;
+  background-position: bottom 10px right 10px;
+  background-size: 60%;
+  background-image: url(${backArrow});
+  background-repeat: no-repeat;
+  cursor: pointer;
+`;
+
+const UnstyledLink = styled(Link)`
+  text-decoration: underline;
+  color: black;
+`;
+
+const Topbar = ({ showBackButton }) => (
+  <StyledTopbar>
+    {showBackButton ? (
+      <UnstyledLink to="/">
+        <BackButton />
+      </UnstyledLink>
+    ) : (
+      <Logo />
+    )}
+    <UnstyledLink to="/">
+      <Title>KATONO</Title>
+    </UnstyledLink>
+    <Cart />
+  </StyledTopbar>
+);
+
+export default Topbar;
