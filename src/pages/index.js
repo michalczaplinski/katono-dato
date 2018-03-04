@@ -26,7 +26,10 @@ export const query = graphql`
           description
           price
           size
-          tags
+          tags {
+            id
+            name
+          }
           coverImage {
             sizes(maxWidth: 500, imgixParams: { fm: "jpg", auto: "compress" }) {
               ...GatsbyDatoCmsSizes

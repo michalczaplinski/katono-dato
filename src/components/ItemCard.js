@@ -6,8 +6,6 @@ import Img from "gatsby-image";
 const ItemCardWrapper = styled.div`
   width: 100%;
   height: 100%;
-  /* border-top: 1px grey solid;
-  border-left: 1px grey solid; */
   display: flex;
   justify-content: center;
   align-content: center;
@@ -17,7 +15,8 @@ const ItemCardStyled = styled.div`
   width: 100%;
   height: 100%;
   max-width: 500px;
-  max-height: 400px;
+  max-height: 450px;
+  overflow: hidden;
 `;
 
 const Title = styled.figcaption`
@@ -28,6 +27,13 @@ const ItemLink = styled(Link)`
   text-decoration: none;
   color: black;
 `;
+
+const Description = styled.p`
+  font-size: 0.8em;
+  text-justify: auto;
+`;
+
+const Price = styled.h6``;
 
 const ItemCard = ({ item }) => (
   <ItemCardWrapper>
@@ -40,6 +46,7 @@ const ItemCard = ({ item }) => (
           <ItemLink to={`/items/${item.slug}`}>{item.title}</ItemLink>
         </h3>
       </Title>
+      <Description>{item.description}</Description>
     </ItemCardStyled>
   </ItemCardWrapper>
 );
