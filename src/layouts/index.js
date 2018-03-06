@@ -1,7 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { HelmetDatoCms } from "gatsby-source-datocms";
-// import { range } from "lodash";
 import styled from "styled-components";
 
 import "normalize.css";

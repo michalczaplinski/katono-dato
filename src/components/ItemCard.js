@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Link from "gatsby-link";
 import Img from "gatsby-image";
+import { connect } from "react-redux";
 
 const ItemCardWrapper = styled.div`
   width: 100%;
@@ -33,9 +34,31 @@ const Description = styled.p`
   text-justify: auto;
 `;
 
-const Price = styled.h6``;
+const Size = styled.p`
+  text-transform: uppercase;
+  font-style: bold;
+`;
+const Price = styled.p`
+  color: grey;
+  font-style: italic;
+`;
 
-const ItemCard = ({ item }) => (
+const AddToCartButton = styled.div`
+  cursor: pointer;
+  width: 127px;
+  height: 31px;
+  line-height: 1.8;
+  background-color: white;
+  border: 1px solid black;
+  text-align: center;
+  &:hover {
+    background-color: #ffdbdb;
+    border: 1px solid #ffdbdb;
+  }
+  transition: all 400ms ease-in-out;
+`;
+
+const ItemCard = ({ item, addItemToCart }) => (
   <ItemCardWrapper>
     <ItemCardStyled>
       <ItemLink to={`/items/${item.slug}`}>
@@ -47,8 +70,18 @@ const ItemCard = ({ item }) => (
         </h3>
       </Title>
       <Description>{item.description}</Description>
+      <Size>{item.size}</Size>
+      <Price>{item.price} KSh</Price>
+      <AddToCartButton onClick={() => addItemToCart(item.id)}>
+        ADD TO CART
+      </AddToCartButton>
     </ItemCardStyled>
   </ItemCardWrapper>
 );
 
-export default ItemCard;
+const mapStateToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  addItemToCart: id => dispatch({ type: "ADD_ITEM_TO_CART", id })
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemCard);

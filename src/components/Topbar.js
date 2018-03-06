@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "gatsby-link";
+import { connect } from "react-redux";
 
 import katonoLogo from "../static/katono-logo.svg";
 import shoppingCart from "../static/shopping-cart.svg";
@@ -35,7 +36,6 @@ const Title = styled.div`
   font-family: "Permanent Marker", cursive;
   font-size: 34px;
   color: black;
-  decoration: none;
 `;
 
 const Cart = styled.div`
@@ -48,6 +48,21 @@ const Cart = styled.div`
   cursor: pointer;
 `;
 
+const ItemCounter = styled.div`
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  line-height: 1.4;
+  font-family: sans-serif;
+  font-size: 12px;
+`;
+
 const BackButton = styled.div`
   height: 100%;
   width: 50px;
@@ -58,25 +73,29 @@ const BackButton = styled.div`
   cursor: pointer;
 `;
 
-const UnstyledLink = styled(Link)`
+const StyledLink = styled(Link)`
   text-decoration: underline;
   color: black;
 `;
 
-const Topbar = ({ showBackButton }) => (
+const Topbar = ({ showBackButton, numItemsInCart }) => (
   <StyledTopbar>
     {showBackButton ? (
-      <UnstyledLink to="/">
+      <StyledLink to="/">
         <BackButton />
-      </UnstyledLink>
+      </StyledLink>
     ) : (
       <Logo />
     )}
-    <UnstyledLink to="/">
+    <StyledLink to="/">
       <Title>KATONO</Title>
-    </UnstyledLink>
-    <Cart />
+    </StyledLink>
+    <Cart>
+      <ItemCounter>{numItemsInCart}</ItemCounter>
+    </Cart>
   </StyledTopbar>
 );
 
-export default Topbar;
+const mapStateToProps = ({ cart }) => ({ numItemsInCart: cart.length });
+
+export default connect(mapStateToProps)(Topbar);
