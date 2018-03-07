@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Link from "gatsby-link";
 import Img from "gatsby-image";
 import { connect } from "react-redux";
@@ -56,9 +56,15 @@ const AddToCartButton = styled.div`
     border: 1px solid #ffdbdb;
   }
   transition: all 400ms ease-in-out;
+  ${props =>
+    props.disabled &&
+    css`
+      background-color: #ffdbdb;
+      border: 1px solid #ffdbdb;
+    `};
 `;
 
-const ItemCard = ({ item, addItemToCart }) => (
+const ItemCard = ({ cart, item, addItemToCart }) => (
   <ItemCardWrapper>
     <ItemCardStyled>
       <ItemLink to={`/items/${item.slug}`}>
@@ -72,14 +78,17 @@ const ItemCard = ({ item, addItemToCart }) => (
       <Description>{item.description}</Description>
       <Size>{item.size}</Size>
       <Price>{item.price} KSh</Price>
-      <AddToCartButton onClick={() => addItemToCart(item.id)}>
+      <AddToCartButton
+        disabled={cart.includes(item.id)}
+        onClick={() => addItemToCart(item.id)}
+      >
         ADD TO CART
       </AddToCartButton>
     </ItemCardStyled>
   </ItemCardWrapper>
 );
 
-const mapStateToProps = () => ({});
+const mapStateToProps = ({ cart }) => ({ cart });
 const mapDispatchToProps = dispatch => ({
   addItemToCart: id => dispatch({ type: "ADD_ITEM_TO_CART", id })
 });
