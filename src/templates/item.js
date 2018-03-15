@@ -1,35 +1,71 @@
 import React from "react";
 import { HelmetDatoCms } from "gatsby-source-datocms";
+import { connect } from "react-redux";
 import Img from "gatsby-image";
+import styled from "styled-components";
+import AddToCartButton from "../components/AddToCarButton";
 
-export default ({ data }) => (
+const Size = styled.span`
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-right: 15px;
+`;
+
+const Price = styled.span`
+  color: grey;
+  font-style: italic;
+  margin-right: 15px;
+`;
+
+const Image = styled.div`
+  max-width: 500px;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  margin: 0 auto;
+`;
+
+const Item = ({ cart, addItemToCart, data: { datoCmsClothingItem: item } }) => (
   <article className="sheet">
-    <HelmetDatoCms seo={data.datoCmsClothingItem.seoMetaTags} />
-    <div className="sheet__inner">
-      <h1 className="sheet__title">{data.datoCmsClothingItem.title}</h1>
-      <p className="sheet__lead">{data.datoCmsClothingItem.excerpt}</p>
-      <div className="sheet__slider" />
+    <HelmetDatoCms seo={item.seoMetaTags} />
+    <div>
+      <Image>
+        <Img sizes={item.coverImage.sizes} />
+      </Image>
+      <Size>{item.size}</Size>
+      <Price>{item.price} KSh</Price>
       <div
-        className="sheet__body"
         dangerouslySetInnerHTML={{
-          __html:
-            data.datoCmsClothingItem.descriptionNode.childMarkdownRemark.html
+          __html: item.descriptionNode.childMarkdownRemark.html
         }}
       />
-      <div className="sheet__gallery">
-        <Img sizes={data.datoCmsClothingItem.coverImage.sizes} />
-      </div>
+      <AddToCartButton
+        disabled={cart.includes(item.id)}
+        onClick={() => addItemToCart(item.id)}
+      >
+        ADD TO CART
+      </AddToCartButton>
     </div>
   </article>
 );
 
+const mapStateToProps = ({ cart }) => ({ cart });
+const mapDispatchToProps = dispatch => ({
+  addItemToCart: id => dispatch({ type: "ADD_ITEM_TO_CART", id })
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Item);
+
 export const query = graphql`
   query ClothingItemQuery($slug: String!) {
     datoCmsClothingItem(slug: { eq: $slug }) {
+      id
       seoMetaTags {
         ...GatsbyDatoCmsSeoMetaTags
       }
       title
+      price
+      size
       gallery {
         resize(height: 200, imgixParams: { fm: "jpg", auto: "compress" }) {
           src
