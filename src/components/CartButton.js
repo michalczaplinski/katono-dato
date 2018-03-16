@@ -6,10 +6,11 @@ export default styled.div`
   cursor: pointer;
   width: 127px;
   height: 31px;
-  line-height: 1.8;
-  background-color: ${colors.red};
+  line-height: 1.4;
+  background-color: ${props => props.backgroundColor || "red"};
   text-align: center;
-  border-radius: 2px;
+  font-weight: bold;
+  border: ${props => props.border || "4px solid black"};
   &:hover {
     ${props =>
       !props.disabled &&

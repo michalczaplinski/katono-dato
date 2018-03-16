@@ -1,9 +1,9 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import Link from "gatsby-link";
 import Img from "gatsby-image";
 import { connect } from "react-redux";
-import AddToCartButton from "./AddToCarButton";
+import CartButton from "./CartButton";
 
 const ItemCardWrapper = styled.div`
   margin-top: 10px;
@@ -44,7 +44,7 @@ const ItemCard = ({ cart, item, addItemToCart }) => (
   <ItemCardWrapper>
     <ItemCardStyled>
       <ItemLink to={`/items/${item.slug}`}>
-        <Img style={{}} sizes={item.coverImage.sizes} />
+        <Img sizes={item.coverImage.sizes} />
       </ItemLink>
       <Title>
         <h3>
@@ -53,12 +53,12 @@ const ItemCard = ({ cart, item, addItemToCart }) => (
       </Title>
       <Size>{item.size}</Size>
       <Price>{item.price} KSh</Price>
-      <AddToCartButton
+      <CartButton
         disabled={cart.includes(item.id)}
         onClick={() => addItemToCart(item.id)}
       >
         ADD TO CART
-      </AddToCartButton>
+      </CartButton>
     </ItemCardStyled>
   </ItemCardWrapper>
 );

@@ -3,7 +3,7 @@ import { HelmetDatoCms } from "gatsby-source-datocms";
 import { connect } from "react-redux";
 import Img from "gatsby-image";
 import styled from "styled-components";
-import AddToCartButton from "../components/AddToCarButton";
+import AddToCartButton from "../components/CartButton";
 
 const Size = styled.span`
   text-transform: uppercase;
@@ -26,7 +26,7 @@ const Image = styled.div`
 `;
 
 const Item = ({ cart, addItemToCart, data: { datoCmsClothingItem: item } }) => (
-  <article className="sheet">
+  <article>
     <HelmetDatoCms seo={item.seoMetaTags} />
     <div>
       <Image>

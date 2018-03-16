@@ -30,12 +30,14 @@ const Logo = styled.div`
   background-size: 50%;
   background-repeat: no-repeat;
   background-image: url(${katonoLogo});
+  cursor: pointer;
 `;
 
 const Title = styled.div`
   font-family: "Permanent Marker", cursive;
   font-size: 34px;
   color: black;
+  cursor: pointer;
 `;
 
 const Cart = styled.div`
@@ -90,9 +92,11 @@ const Topbar = ({ showBackButton, numItemsInCart }) => (
     <StyledLink to="/">
       <Title>KATONO</Title>
     </StyledLink>
-    <Cart>
-      <ItemCounter>{numItemsInCart}</ItemCounter>
-    </Cart>
+    <Link to="/cart">
+      <Cart>
+        <ItemCounter>{numItemsInCart}</ItemCounter>
+      </Cart>
+    </Link>
   </StyledTopbar>
 );
 
