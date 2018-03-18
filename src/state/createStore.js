@@ -16,10 +16,12 @@ const reducer = (state, action) => {
   }
 };
 
-const persistedCart =
-  window && window.localStorage.getItem("cart")
+let persistedCart = [];
+if (typeof window !== `undefined`) {
+  persistedCart = window.localStorage.getItem("cart")
     ? JSON.parse(window.localStorage.getItem("cart"))
     : [];
+}
 
 const initialState = { cart: persistedCart };
 
