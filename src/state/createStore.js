@@ -16,9 +16,10 @@ const reducer = (state, action) => {
   }
 };
 
-const persistedCart = localStorage.getItem("cart")
-  ? JSON.parse(localStorage.getItem("cart"))
-  : [];
+const persistedCart =
+  window && window.localStorage.getItem("cart")
+    ? JSON.parse(window.localStorage.getItem("cart"))
+    : [];
 
 const initialState = { cart: persistedCart };
 
@@ -26,6 +27,8 @@ const createStore = () =>
   reduxCreateStore(
     reducer,
     initialState,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    window &&
+      window.__REDUX_DEVTOOLS_EXTENSION__ &&
+      window.__REDUX_DEVTOOLS_EXTENSION__()
   );
 export default createStore;
