@@ -10,7 +10,7 @@
     "gatsby-link": "^1.6.28",
     "gatsby-plugin-react-helmet": "^1.0.8",
     "gatsby-plugin-styled-components": "^2.0.5",
-    "gatsby-source-datocms": ">=1.0.12",
+    "gatsby-source-datocms": "^1.1.0",
     "gatsby-source-filesystem": "1.5.9",
     "gatsby-transformer-remark": "1.7.23",
     "lodash": "^4.17.5",
@@ -34,6 +34,7 @@
   "devDependencies": {
     "@storybook/react": "^3.3.14",
     "babel-core": "^6.26.0",
+    "babel-loader": "7.1.1",
     "eslint": "^4.16.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-prettier": "^2.9.0",
