@@ -1,14 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Link, { navigateTo } from "gatsby-link";
 import Img from "gatsby-image";
 import styled from "styled-components";
-import { CSSTransitionGroup } from "react-transition-group";
 
-import trashIcon from "../static/trash.svg";
 import CartButton from "../components/CartButton";
+import CheckoutForm from "../components/CheckoutForm";
 
-const CartPageContainer = styled.div`
+const CheckoutPageContainer = styled.div`
   padding-top: 25px;
   max-width: 800px;
   margin: 0 auto;
@@ -16,51 +16,47 @@ const CartPageContainer = styled.div`
   flex-flow: column;
 `;
 
-const CartItemContainer = styled.div`
+const CheckoutItems = styled.div`
   display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  margin-bottom: 20px;
 `;
 
-const CartImageLink = styled(Link)`
+const YourItems = styled.p`
   display: inline-block;
-  width: 100px;
-  height: 100px;
-  margin-right: 5%;
-`;
-
-const Size = styled.p`
-  text-transform: uppercase;
+  margin-right: 10px;
   font-weight: bold;
-  margin-right: 5%;
 `;
 
-const Price = styled.p`
-  color: grey;
-  font-style: italic;
-  margin-right: 5%;
+const CheckoutItemContainer = styled.div`
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  margin-right: 10px;
 `;
 
-const RemoveButton = styled.div`
-  height: 50px;
-  width: 50px;
-  background-position: center;
-  background-size: 50%;
-  background-repeat: no-repeat;
-  background-image: url(${trashIcon});
-  cursor: pointer;
+const CheckoutImageLink = styled(Link)`
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  margin-right: 5%;
 `;
 
 const TotalContainer = styled.div`
   display: block;
 `;
 
-const CheckoutButton = CartButton;
+const BuyButton = CartButton;
 
-const Total = styled.p``;
+const Total = styled.p`
+  display: inline-block;
+  margin-right: 10px;
+  font-weight: bold;
+`;
 
 const TotalAmount = styled.p`
+  display: inline-block;
   color: grey;
   font-style: italic;
 `;
@@ -73,39 +69,28 @@ const CartPage = ({
   const itemsInCart = allItems.filter(item => cart.includes(item.node.id));
 
   return (
-    <CartPageContainer>
-      <CSSTransitionGroup
-        transitionName="fade"
-        transitionEnterTimeout={400}
-        transitionLeaveTimeout={400}
-      >
+    <CheckoutPageContainer>
+      <YourItems>YOUR ITEMS:</YourItems>
+      <CheckoutItems>
         {itemsInCart.map(({ node: item }) => (
-          <CartItemContainer key={item.id}>
-            <CartImageLink to={`/items/${item.slug}`}>
+          <CheckoutItemContainer key={item.id}>
+            <CheckoutImageLink to={`/items/${item.slug}`}>
               <Img style={{}} sizes={item.coverImage.sizes} />
-            </CartImageLink>
-            <p>{item.title}</p>
-            <Size>{item.size}</Size>
-            <Price>{item.price} KSh</Price>
-            <RemoveButton onClick={() => removeItemFromCart(item.id)} />
-          </CartItemContainer>
+            </CheckoutImageLink>
+          </CheckoutItemContainer>
         ))}
-      </CSSTransitionGroup>
+      </CheckoutItems>
       <TotalContainer>
-        <CheckoutButton
-          backgroundColor="blue"
-          onClick={() => navigateTo("/checkout")}
-        >
-          CHECKOUT
-        </CheckoutButton>
-        <Total style={{ marginRight: "10px", fontWeight: "bold" }}>
-          TOTAL:
-        </Total>
+        <Total>TOTAL:</Total>
         <TotalAmount>
           {itemsInCart.reduce((sum, { node: item }) => sum + item.price, 0)} KSh
         </TotalAmount>
+
+        <CheckoutForm />
+
+        <BuyButton onClick={() => navigateTo("/success")}>BUY</BuyButton>
       </TotalContainer>
-    </CartPageContainer>
+    </CheckoutPageContainer>
   );
 };
 
@@ -117,7 +102,7 @@ const mapDispatchToProps = dispatch => ({
 export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
 
 export const query = graphql`
-  query CartQuery {
+  query CheckoutQuery {
     allDatoCmsClothingItem(sort: { fields: [position], order: ASC }) {
       edges {
         node {

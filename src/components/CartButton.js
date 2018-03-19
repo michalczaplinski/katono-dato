@@ -10,7 +10,7 @@ export default styled.div`
   background-color: ${props => props.backgroundColor || "red"};
   text-align: center;
   font-weight: bold;
-  border: ${props => props.border || "4px solid black"};
+  border: ${props => props.border || "4px solid #333333"};
   &:hover {
     ${props =>
       !props.disabled &&

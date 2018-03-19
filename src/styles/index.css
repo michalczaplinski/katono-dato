@@ -19,3 +19,7 @@
   opacity: 0.01;
   transition: opacity 400ms ease-in;
 }
+
+.displayErrors input:invalid {
+  border-color: #f73772;
+}
