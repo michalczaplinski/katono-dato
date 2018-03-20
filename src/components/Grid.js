@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const Box = styled.div`
   height: auto;
-  padding-left: 1%;
-  padding-right: 1%;
+  padding-left: 2%;
+  padding-right: 2%;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -16,18 +16,18 @@ const Grid = styled.div`
   align-items: flex-start;
   flex-flow: row wrap;
 
-  @media (max-width: 400px) {
+  @media (max-width: 300px) {
     display: block;
   }
 
   ${Box} {
     width: 100%;
 
-    @media (min-width: 401px) {
+    @media (min-width: 300px) {
       width: 50%;
       height: auto;
     }
-    @media (min-width: 700px) {
+    @media (min-width: 650px) {
       width: 33.333%;
       height: auto;
     }

@@ -11,6 +11,10 @@ const reducer = (state, action) => {
       return Object.assign({}, state, {
         cart: state.cart.filter(item => item !== action.id)
       });
+    case "CLEAR_CART":
+      return Object.assign({}, state, {
+        cart: []
+      });
     default:
       return state;
   }

@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import Link, { navigateTo } from "gatsby-link";
 import Img from "gatsby-image";
 import styled from "styled-components";
-import { CSSTransitionGroup } from "react-transition-group";
 
 import trashIcon from "../static/trash.svg";
 import CartButton from "../components/CartButton";
+import Fade from "../components/Fade";
 
 const CartPageContainer = styled.div`
   padding-top: 20px;
@@ -55,13 +55,18 @@ const RemoveButton = styled.div`
 
 const TotalContainer = styled.div`
   display: block;
+  margin-bottom: 20px;
 `;
 
 const CheckoutButton = CartButton;
 
-const Total = styled.p``;
+const Totals = styled.div`
+  margin-bottom: 15px;
+`;
 
-const TotalAmount = styled.p`
+const Total = styled.span``;
+
+const TotalAmount = styled.span`
   color: grey;
   font-style: italic;
 `;
@@ -77,11 +82,7 @@ const CartPage = ({
 
   return (
     <CartPageContainer>
-      <CSSTransitionGroup
-        transitionName="fade"
-        transitionEnterTimeout={400}
-        transitionLeaveTimeout={400}
-      >
+      <Fade>
         {itemsInCart.map(({ node: item }) => (
           <CartItemContainer key={item.id}>
             <CartImageLink to={`/items/${item.slug}`}>
@@ -94,23 +95,25 @@ const CartPage = ({
           </CartItemContainer>
         ))}
         {!hasItemsInCart && <p> YOUR CART IS EMPTY ! </p>}
-      </CSSTransitionGroup>
+      </Fade>
 
       {hasItemsInCart && (
         <TotalContainer>
+          <Totals>
+            <Total style={{ marginRight: "10px", fontWeight: "bold" }}>
+              TOTAL:
+            </Total>
+            <TotalAmount>
+              {itemsInCart.reduce((sum, { node: item }) => sum + item.price, 0)}
+              KSh
+            </TotalAmount>
+          </Totals>
           <CheckoutButton
-            backgroundColor="blue"
+            backgroundColor="yellow"
             onClick={() => navigateTo("/checkout")}
           >
             CHECKOUT
           </CheckoutButton>
-          <Total style={{ marginRight: "10px", fontWeight: "bold" }}>
-            TOTAL:
-          </Total>
-          <TotalAmount>
-            {itemsInCart.reduce((sum, { node: item }) => sum + item.price, 0)}
-            KSh
-          </TotalAmount>
         </TotalContainer>
       )}
     </CartPageContainer>

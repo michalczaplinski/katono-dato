@@ -2,12 +2,15 @@
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import styled, { css } from "styled-components";
-import { CSSTransitionGroup } from "react-transition-group";
 import axios from "axios";
-
-import CartButton from "./CartButton";
 import { navigateTo } from "gatsby-link";
+import Spinner from "react-svg-spinner";
+
+import config from "../config";
+import CartButton from "./CartButton";
+import Fade from "./Fade";
 
 function FormDataToJSON(formData) {
   const data = {};
@@ -21,15 +24,13 @@ const Form = styled.form`
   width: 100%;
   font-size: smaller;
   display: inline-block;
-  margin-bottom: 20px;
   vertical-align: top;
 `;
 
-const input = css`
+const inputStyle = css`
   overflow: hidden;
   display: block;
   width: 100%;
-  max-width: 400px;
   margin-top: 5px;
   padding: 10px;
   border: 2px solid #333333;
@@ -47,24 +48,57 @@ const input = css`
 `;
 
 const Input = styled.input`
-  ${input};
+  ${inputStyle};
 `;
 
 const Textarea = styled.textarea`
-  ${input};
+  ${inputStyle};
   padding: 5px;
   resize: none;
 `;
 
-const CheckoutButton = CartButton.withComponent("button").extend`
+const cb = CartButton.withComponent("button");
+const CheckoutButton = cb.extend`
   margin-top: 15px;
   margin-bottom: 15px;
+`;
+
+const Loading = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Error = Loading;
+
+const Sad = styled.span`
+  display: block;
+  text-align: center;
+`;
+
+const ErrorMessage = styled.div`
+  width: 80%;
+  height: auto;
+  line-height: 2;
+  border: 6px solid red;
+  color: black;
+  font-size: 16px;
+  font-weight: bolder;
+  padding: 7px;
 `;
 
 class CheckoutForm extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      loading: false,
+      error: false,
+      displayFormErrors: false,
+      showAddressField: false
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.showAddressField = this.showAddressField.bind(this);
   }
@@ -81,7 +115,7 @@ class CheckoutForm extends Component {
     event.preventDefault();
     if (!event.target.checkValidity()) {
       this.setState({
-        displayErrors: true
+        displayFormErrors: true
       });
       return;
     }
@@ -89,20 +123,21 @@ class CheckoutForm extends Component {
     const data = FormDataToJSON(new FormData(event.target));
 
     this.setState({
-      displayErrors: false
+      displayFormErrors: false,
+      loading: true
     });
 
-    window.clienDetails = {
-      ...data
+    window.clientDetails = {
+      ...data,
+      total: this.props.total
     };
 
     axios({
       method: "POST",
-      url:
-        "https://3xzvziw9x7.execute-api.us-east-1.amazonaws.com/dev/send_mail",
+      url: `${config.API_URL}/send_mail`,
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": "Nh1DsfyXrK8HwtrPNgSll4Sl6HcWd5bF3ZZ8nvRv"
+        "x-api-key": config.API_KEY
       },
       data: {
         from: "katono.clothing@gmail.com",
@@ -120,109 +155,183 @@ class CheckoutForm extends Component {
         }
       }
     })
-      .then(response => console.log(response.data))
+      .then(() =>
+        axios({
+          method: "POST",
+          url: `${config.API_URL}/send_mail`,
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": config.API_KEY
+          },
+          data: {
+            from: "katono.clothing@gmail.com",
+            to: "katono.clothing@gmail.com",
+            subject: `Order from ${data.firstName} ${data.lastName}`,
+            template: "order",
+            context: {
+              first_name: data.firstName,
+              last_name: data.lastName,
+              email: data.email,
+              tel: data.tel,
+              deliveryType: data.deliveryType,
+              address: data.address || null,
+              total: this.props.total,
+              items: this.props.items.map(({ node: item }) => ({
+                ...item,
+                imageURL: item.coverImage.sizes.src
+              }))
+            }
+          }
+        })
+      )
+      .then(() =>
+        axios({
+          method: "POST",
+          url: `${config.API_URL}/update`,
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": config.API_KEY
+          },
+          data: {
+            items: this.props.items.map(({ node: item }) => ({
+              ...item,
+              id: item.id.match(/(\d+)/)[0],
+              imageURL: item.coverImage.sizes.src
+            }))
+          }
+        })
+      )
+      .then(() => {
+        this.props.clearCart();
+      })
       .then(() => navigateTo("/success"))
-      .catch(e => console.log(e));
+      .catch(e => {
+        this.setState({
+          error: true,
+          loading: false
+        });
+        console.log(e);
+      });
   }
 
   render() {
-    const { showAddressField, displayErrors } = this.state;
+    const { showAddressField, displayFormErrors, loading, error } = this.state;
+
+    if (error) {
+      return (
+        <Error>
+          <ErrorMessage>
+            <Sad>😢</Sad>
+            THERE WAS AN ERROR WHILE PROCESSING YOUR ORDER!
+            <p>
+              Please let us know at{" "}
+              <a href="mailto:katono.clothing@gmail.com">
+                katono.clothing@gmail.com
+              </a>
+            </p>
+          </ErrorMessage>
+        </Error>
+      );
+    }
+
+    if (loading) {
+      return (
+        <Loading>
+          <Spinner size="100px" color="red" />
+        </Loading>
+      );
+    }
+
     return (
-      <div>
-        <Form
-          onSubmit={this.handleSubmit}
-          noValidate
-          className={displayErrors ? "displayErrors" : ""}
-        >
-          <label htmlFor="firstName" />
-          <Input
-            placeholder="first name"
-            autoComplete="given-name"
-            id="firstName"
-            name="firstName"
-            type="text"
+      <Form
+        onSubmit={this.handleSubmit}
+        noValidate
+        className={displayFormErrors ? "displayFormErrors" : ""}
+      >
+        <label htmlFor="firstName" />
+        <Input
+          placeholder="first name"
+          autoComplete="given-name"
+          id="firstName"
+          name="firstName"
+          type="text"
+          required
+        />
+
+        <label htmlFor="lastName" />
+        <Input
+          placeholder="last name"
+          autoComplete="family-name"
+          id="lastName"
+          name="lastName"
+          type="text"
+          required
+        />
+
+        <label htmlFor="email" />
+        <Input
+          autoComplete="email"
+          placeholder="email"
+          id="email"
+          name="email"
+          type="email"
+          required
+        />
+
+        <label htmlFor="tel" />
+        <Input
+          autoComplete="tel"
+          placeholder="phone nr."
+          id="tel"
+          name="tel"
+          type="tel"
+          required
+        />
+
+        <fieldset onChange={this.showAddressField}>
+          <legend>delivery type</legend>
+
+          <label htmlFor="pickUp"> pick up</label>
+          <input
+            type="radio"
+            id="radio"
+            name="deliveryType"
+            value="pickUp"
             required
           />
 
-          <label htmlFor="lastName" />
-          <Input
-            placeholder="last name"
-            autoComplete="family-name"
-            id="lastName"
-            name="lastName"
-            type="text"
+          <label htmlFor="delivery"> delivery</label>
+          <input
+            ref={el => {
+              this.deliveryCheckbox = el;
+            }}
+            type="radio"
+            id="radio"
+            name="deliveryType"
+            value="delivery"
             required
           />
+        </fieldset>
 
-          <label htmlFor="email" />
-          <Input
-            autoComplete="email"
-            placeholder="email"
-            id="email"
-            name="email"
-            type="email"
-            required
-          />
+        <Fade>
+          {showAddressField && (
+            <div>
+              <label htmlFor="address" />
+              <Textarea
+                rows="5"
+                autoComplete="street-address"
+                placeholder="address"
+                id="address"
+                name="address"
+                type="address"
+                required
+              />
+            </div>
+          )}
+        </Fade>
 
-          <label htmlFor="tel" />
-          <Input
-            autoComplete="tel"
-            placeholder="phone nr."
-            id="tel"
-            name="tel"
-            type="tel"
-            required
-          />
-
-          <fieldset onChange={this.showAddressField}>
-            <legend>delivery type</legend>
-
-            <label htmlFor="pickUp"> pick up </label>
-            <input
-              type="radio"
-              id="radio"
-              name="deliveryType"
-              value="pickUp"
-              required
-            />
-
-            <label htmlFor="delivery"> delivery </label>
-            <input
-              ref={el => {
-                this.deliveryCheckbox = el;
-              }}
-              type="radio"
-              id="radio"
-              name="deliveryType"
-              value="delivery"
-              required
-            />
-          </fieldset>
-
-          <CSSTransitionGroup
-            transitionName="fade"
-            transitionEnterTimeout={400}
-            transitionLeaveTimeout={400}
-          >
-            {showAddressField && (
-              <div>
-                <label htmlFor="address" />
-                <Textarea
-                  rows="5"
-                  autoComplete="street-address"
-                  placeholder="address"
-                  id="address"
-                  name="address"
-                  type="address"
-                  required
-                />
-              </div>
-            )}
-          </CSSTransitionGroup>
-
-          <CheckoutButton> BUY IT! </CheckoutButton>
-        </Form>
-      </div>
+        <CheckoutButton> BUY IT 👍 </CheckoutButton>
+      </Form>
     );
   }
 }
@@ -240,4 +349,8 @@ CheckoutForm.propTypes = {
   ).isRequired
 };
 
-export default CheckoutForm;
+const mapDispatchToProps = dispatch => ({
+  clearCart: id => dispatch({ type: "CLEAR_CART", id })
+});
+
+export default connect(null, mapDispatchToProps)(CheckoutForm);

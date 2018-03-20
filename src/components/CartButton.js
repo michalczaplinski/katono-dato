@@ -4,9 +4,10 @@ import colors from "../styles/colors";
 
 export default styled.div`
   cursor: pointer;
-  width: 127px;
+  width: 100%;
   height: 31px;
   line-height: 1.4;
+  font-size: 16px;
   background-color: ${props => props.backgroundColor || "red"};
   text-align: center;
   font-weight: bold;
@@ -15,7 +16,7 @@ export default styled.div`
     ${props =>
       !props.disabled &&
       css`
-        background-color: ${colors.lightBlue};
+        background-color: lightblue;
       `};
   }
   transition: all 400ms ease-in-out;

@@ -22,23 +22,31 @@ const ItemCardStyled = styled.div`
   overflow: hidden;
 `;
 
-const Title = styled.figcaption`
-  text-align: center;
-`;
-
 const ItemLink = styled(Link)`
   text-decoration: none;
   color: black;
 `;
 
-const Size = styled.p`
-  text-transform: uppercase;
-  font-weight: bold;
+const DetailsContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
-const Price = styled.p`
+const Size = styled.span`
+  display: inline-block;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-top: 8px;
+  margin-right: 8%;
+  margin-bottom: 8px;
+`;
+
+const Price = styled.span`
+  display: inline-block;
   color: grey;
   font-style: italic;
+  margin-top: 8px;
+  margin-bottom: 8px;
 `;
 
 const ItemCard = ({ cart, item, addItemToCart }) => (
@@ -47,13 +55,10 @@ const ItemCard = ({ cart, item, addItemToCart }) => (
       <ItemLink to={`/items/${item.slug}`}>
         <Img sizes={item.coverImage.sizes} />
       </ItemLink>
-      <Title>
-        <h3>
-          <ItemLink to={`/items/${item.slug}`}>{item.title}</ItemLink>
-        </h3>
-      </Title>
-      <Size>{item.size}</Size>
-      <Price>{item.price} KSh</Price>
+      <DetailsContainer>
+        <Size>{item.size}</Size>
+        <Price>{item.price} KSh</Price>
+      </DetailsContainer>
       <CartButton
         disabled={cart.includes(item.id)}
         onClick={() => addItemToCart(item.id)}
