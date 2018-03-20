@@ -5,7 +5,7 @@ const Fade = ({ children }) => (
   <CSSTransitionGroup
     transitionName="fade"
     transitionEnterTimeout={400}
-    transitionLeaveTimeout={400}
+    transitionLeaveTimeout={250}
   >
     {children}
   </CSSTransitionGroup>

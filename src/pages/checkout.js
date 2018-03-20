@@ -5,6 +5,7 @@ import Link from "gatsby-link";
 import Img from "gatsby-image";
 import styled from "styled-components";
 
+import colors from "../styles/colors";
 import CheckoutForm from "../components/CheckoutForm";
 import CartButton from "../components/CartButton";
 import Fade from "../components/Fade";
@@ -122,7 +123,7 @@ class CartPage extends Component {
             <Fade>
               {!showHowItWorks ? (
                 <CartButton
-                  backgroundColor="green"
+                  backgroundColor={colors.green}
                   onClick={() => this.setState({ showHowItWorks: true })}
                 >
                   TELL ME HOW IT WORKS !
@@ -135,8 +136,8 @@ class CartPage extends Component {
               {showHowItWorks && (
                 <HowDoesItWork>
                   <p>
-                    • Fill out your details and press {'"BUY IT"'} to confirm
-                    the order.
+                    • Fill out your details and press <Bold>"BUY IT"</Bold> to
+                    confirm your order.
                   </p>
                   <p>
                     • We{"'"}ll be in touch right away to confirm your purchase
@@ -144,16 +145,25 @@ class CartPage extends Component {
                   </p>
                   <p>
                     • You can pay either by <Bold> cash </Bold> or
-                    <Bold> M-PESA </Bold>.
+                    <Bold> M-PESA</Bold>.
                   </p>
+                  <p>
+                    • You can pick up from <Bold>Diamond Plaza</Bold> in Nairobi
+                    or from an arranged location in <Bold>CBD</Bold>.
+                  </p>
+                  <p>• We deliver anywhere within Nairobi!</p>
                   <p>• Delivery is extra 250 Ksh ☝️</p>
-                  <p>• Please pay within 48h :) 🙏</p>
+                  <p>
+                    • Please pay within 48h or we{"'"}ll be have to cancel your
+                    order :) 🙏
+                  </p>
                 </HowDoesItWork>
               )}
             </Fade>
             <Fade>
               {showHowItWorks && (
                 <CartButton
+                  backgroundColor={colors.turquoise}
                   onClick={() => this.setState({ showHowItWorks: false })}
                 >
                   OK COOL.
