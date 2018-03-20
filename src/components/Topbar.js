@@ -80,15 +80,9 @@ const StyledLink = styled(Link)`
   color: black;
 `;
 
-const Topbar = ({ showBackButton, numItemsInCart }) => (
+const Topbar = ({ showBackButton, numItemsInCart, goBack }) => (
   <StyledTopbar>
-    {showBackButton ? (
-      <StyledLink to="/">
-        <BackButton />
-      </StyledLink>
-    ) : (
-      <Logo />
-    )}
+    {showBackButton ? <BackButton onClick={goBack} /> : <Logo />}
     <StyledLink to="/">
       <Title>KATONO</Title>
     </StyledLink>

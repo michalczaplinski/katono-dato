@@ -9,6 +9,7 @@ module.exports = {
         "prettier/prettier": "error",
         "react/jsx-filename-extension": "off",      
         "import/no-extraneous-dependencies": "off",
-        "jsx-a11y/anchor-is-valid": "off"  
+        "jsx-a11y/anchor-is-valid": "off",
+        "jsx-a11y/label-has-for": "off",
     }
 };

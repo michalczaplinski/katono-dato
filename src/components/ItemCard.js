@@ -6,10 +6,11 @@ import { connect } from "react-redux";
 import CartButton from "./CartButton";
 
 const ItemCardWrapper = styled.div`
-  margin-top: 10px;
   width: 100%;
   height: 100%;
   display: flex;
+  margin-top: 20px;
+  margin-bottom: 10px;
   justify-content: center;
   align-content: center;
 `;

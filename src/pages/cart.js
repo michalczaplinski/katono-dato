@@ -9,7 +9,7 @@ import trashIcon from "../static/trash.svg";
 import CartButton from "../components/CartButton";
 
 const CartPageContainer = styled.div`
-  padding-top: 25px;
+  padding-top: 20px;
   max-width: 800px;
   margin: 0 auto;
   display: flex;
@@ -21,25 +21,26 @@ const CartItemContainer = styled.div`
   flex-flow: row;
   justify-content: space-between;
   margin-bottom: 10px;
+  overflow: hidden;
 `;
 
 const CartImageLink = styled(Link)`
   display: inline-block;
   width: 100px;
   height: 100px;
-  margin-right: 5%;
+  margin-right: 2%;
 `;
 
 const Size = styled.p`
   text-transform: uppercase;
   font-weight: bold;
-  margin-right: 5%;
+  margin-right: 2%;
 `;
 
 const Price = styled.p`
   color: grey;
   font-style: italic;
-  margin-right: 5%;
+  margin-right: 2%;
 `;
 
 const RemoveButton = styled.div`
@@ -72,6 +73,8 @@ const CartPage = ({
 }) => {
   const itemsInCart = allItems.filter(item => cart.includes(item.node.id));
 
+  const hasItemsInCart = itemsInCart.length > 0;
+
   return (
     <CartPageContainer>
       <CSSTransitionGroup
@@ -90,21 +93,26 @@ const CartPage = ({
             <RemoveButton onClick={() => removeItemFromCart(item.id)} />
           </CartItemContainer>
         ))}
+        {!hasItemsInCart && <p> YOUR CART IS EMPTY ! </p>}
       </CSSTransitionGroup>
-      <TotalContainer>
-        <CheckoutButton
-          backgroundColor="blue"
-          onClick={() => navigateTo("/checkout")}
-        >
-          CHECKOUT
-        </CheckoutButton>
-        <Total style={{ marginRight: "10px", fontWeight: "bold" }}>
-          TOTAL:
-        </Total>
-        <TotalAmount>
-          {itemsInCart.reduce((sum, { node: item }) => sum + item.price, 0)} KSh
-        </TotalAmount>
-      </TotalContainer>
+
+      {hasItemsInCart && (
+        <TotalContainer>
+          <CheckoutButton
+            backgroundColor="blue"
+            onClick={() => navigateTo("/checkout")}
+          >
+            CHECKOUT
+          </CheckoutButton>
+          <Total style={{ marginRight: "10px", fontWeight: "bold" }}>
+            TOTAL:
+          </Total>
+          <TotalAmount>
+            {itemsInCart.reduce((sum, { node: item }) => sum + item.price, 0)}
+            KSh
+          </TotalAmount>
+        </TotalContainer>
+      )}
     </CartPageContainer>
   );
 };

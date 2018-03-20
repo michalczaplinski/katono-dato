@@ -17,7 +17,10 @@ export default IndexPage;
 
 export const query = graphql`
   query IndexQuery {
-    allDatoCmsClothingItem(sort: { fields: [position], order: ASC }) {
+    allDatoCmsClothingItem(
+      sort: { fields: [position], order: ASC }
+      filter: { available: { eq: true } }
+    ) {
       edges {
         node {
           id

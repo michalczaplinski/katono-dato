@@ -2,13 +2,18 @@ import React from "react";
 import styled from "styled-components";
 
 const Box = styled.div`
-  margin-bottom: 10px;
-  margin-top: 10px;
+  height: auto;
+  padding-left: 1%;
+  padding-right: 1%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
 `;
 
 const Grid = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  align-items: flex-start;
   flex-flow: row wrap;
 
   @media (max-width: 400px) {
@@ -19,16 +24,20 @@ const Grid = styled.div`
     width: 100%;
 
     @media (min-width: 401px) {
-      width: 47%;
+      width: 50%;
+      height: auto;
     }
     @media (min-width: 700px) {
-      width: 31%;
+      width: 33.333%;
+      height: auto;
     }
     @media (min-width: 920px) {
-      width: 23%;
+      width: 25%;
+      height: auto;
     }
     @media (min-width: 1220px) {
-      width: 19%;
+      width: 20%;
+      height: auto;
     }
   }
 `;

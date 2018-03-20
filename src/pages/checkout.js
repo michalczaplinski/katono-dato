@@ -1,15 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Link, { navigateTo } from "gatsby-link";
+import Link from "gatsby-link";
 import Img from "gatsby-image";
 import styled from "styled-components";
 
-import CartButton from "../components/CartButton";
 import CheckoutForm from "../components/CheckoutForm";
 
 const CheckoutPageContainer = styled.div`
-  padding-top: 25px;
   max-width: 800px;
   margin: 0 auto;
   display: flex;
@@ -33,7 +31,8 @@ const CheckoutItemContainer = styled.div`
   display: flex;
   flex-flow: column;
   justify-content: space-between;
-  margin-right: 10px;
+  padding: 10px;
+  overflow: hidden;
 `;
 
 const CheckoutImageLink = styled(Link)`
@@ -46,8 +45,6 @@ const CheckoutImageLink = styled(Link)`
 const TotalContainer = styled.div`
   display: block;
 `;
-
-const BuyButton = CartButton;
 
 const Total = styled.p`
   display: inline-block;
@@ -67,10 +64,13 @@ const CartPage = ({
   data: { allDatoCmsClothingItem: { edges: allItems } }
 }) => {
   const itemsInCart = allItems.filter(item => cart.includes(item.node.id));
-
+  const total = itemsInCart.reduce(
+    (sum, { node: item }) => sum + item.price,
+    0
+  );
   return (
     <CheckoutPageContainer>
-      <YourItems>YOUR ITEMS:</YourItems>
+      <YourItems>YOUR STUFF:</YourItems>
       <CheckoutItems>
         {itemsInCart.map(({ node: item }) => (
           <CheckoutItemContainer key={item.id}>
@@ -82,13 +82,8 @@ const CartPage = ({
       </CheckoutItems>
       <TotalContainer>
         <Total>TOTAL:</Total>
-        <TotalAmount>
-          {itemsInCart.reduce((sum, { node: item }) => sum + item.price, 0)} KSh
-        </TotalAmount>
-
-        <CheckoutForm />
-
-        <BuyButton onClick={() => navigateTo("/success")}>BUY</BuyButton>
+        <TotalAmount>{total} KSh</TotalAmount>
+        <CheckoutForm items={itemsInCart} total={total} />
       </TotalContainer>
     </CheckoutPageContainer>
   );

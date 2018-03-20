@@ -25,13 +25,16 @@ const PageInnerContainer = styled.div`
   height: 100%;
 `;
 
-const Layout = ({ children, data, location }) => (
+const Layout = ({ children, data, location, history }) => (
   <div>
     <HelmetDatoCms
       favicon={data.datoCmsSite.faviconMetaTags}
       seo={data.datoCmsHome.seoMetaTags}
     />
-    <Topbar showBackButton={location.pathname !== "/"} />
+    <Topbar
+      showBackButton={location.pathname !== "/"}
+      goBack={history.goBack}
+    />
     <PageContainer>
       <PageInnerContainer>{children()}</PageInnerContainer>
     </PageContainer>
