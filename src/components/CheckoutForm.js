@@ -1,4 +1,4 @@
-/* global FormData */
+/* global FormData, window */
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
@@ -312,22 +312,19 @@ class CheckoutForm extends Component {
             required
           />
         </fieldset>
-
-        <Fade>
-          {showAddressField && (
-            <div>
-              <label htmlFor="address" />
-              <Textarea
-                rows="5"
-                autoComplete="street-address"
-                placeholder="address"
-                id="address"
-                name="address"
-                type="address"
-                required
-              />
-            </div>
-          )}
+        <Fade in={showAddressField}>
+          <div>
+            <label htmlFor="address" />
+            <Textarea
+              rows="5"
+              autoComplete="street-address"
+              placeholder="address"
+              id="address"
+              name="address"
+              type="address"
+              required
+            />
+          </div>
         </Fade>
 
         <CheckoutButton> BUY IT 👍 </CheckoutButton>
@@ -337,6 +334,7 @@ class CheckoutForm extends Component {
 }
 
 CheckoutForm.propTypes = {
+  clearCart: PropTypes.func.isRequired,
   total: PropTypes.number.isRequired,
   items: PropTypes.arrayOf(
     PropTypes.shape({

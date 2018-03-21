@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import Link, { navigateTo } from "gatsby-link";
 import Img from "gatsby-image";
 import styled from "styled-components";
+import { TransitionGroup } from "react-transition-group";
 
+import colors from "../styles/colors";
 import trashIcon from "../static/trash.svg";
 import CartButton from "../components/CartButton";
 import Fade from "../components/Fade";
@@ -72,6 +74,7 @@ const TotalAmount = styled.span`
 `;
 
 const CartPage = ({
+  transition,
   cart,
   removeItemFromCart,
   data: { allDatoCmsClothingItem: { edges: allItems } }
@@ -81,42 +84,50 @@ const CartPage = ({
   const hasItemsInCart = itemsInCart.length > 0;
 
   return (
-    <CartPageContainer>
-      <Fade>
-        {itemsInCart.map(({ node: item }) => (
-          <CartItemContainer key={item.id}>
-            <CartImageLink to={`/items/${item.slug}`}>
-              <Img style={{}} sizes={item.coverImage.sizes} />
-            </CartImageLink>
-            <p>{item.title}</p>
-            <Size>{item.size}</Size>
-            <Price>{item.price} KSh</Price>
-            <RemoveButton onClick={() => removeItemFromCart(item.id)} />
-          </CartItemContainer>
-        ))}
-        {!hasItemsInCart && <p> YOUR CART IS EMPTY ! </p>}
-      </Fade>
-
-      {hasItemsInCart && (
-        <TotalContainer>
-          <Totals>
-            <Total style={{ marginRight: "10px", fontWeight: "bold" }}>
-              TOTAL:
-            </Total>
-            <TotalAmount>
-              {itemsInCart.reduce((sum, { node: item }) => sum + item.price, 0)}
-              KSh
-            </TotalAmount>
-          </Totals>
-          <CheckoutButton
-            backgroundColor="yellow"
-            onClick={() => navigateTo("/checkout")}
-          >
-            CHECKOUT
-          </CheckoutButton>
-        </TotalContainer>
-      )}
-    </CartPageContainer>
+    <div style={transition && transition.style}>
+      <CartPageContainer>
+        <TransitionGroup>
+          {itemsInCart.map(({ node: item }) => (
+            <Fade key={item.id}>
+              <div>
+                <CartItemContainer>
+                  <CartImageLink to={`/items/${item.slug}`}>
+                    <Img style={{}} sizes={item.coverImage.sizes} />
+                  </CartImageLink>
+                  <p>{item.title}</p>
+                  <Size>{item.size}</Size>
+                  <Price>{item.price} KSh</Price>
+                  <RemoveButton onClick={() => removeItemFromCart(item.id)} />
+                </CartItemContainer>
+                {!hasItemsInCart && <p> YOUR CART IS EMPTY ! </p>}
+              </div>
+            </Fade>
+          ))}
+        </TransitionGroup>
+        {hasItemsInCart && (
+          <TotalContainer>
+            <Totals>
+              <Total style={{ marginRight: "10px", fontWeight: "bold" }}>
+                TOTAL:
+              </Total>
+              <TotalAmount>
+                {itemsInCart.reduce(
+                  (sum, { node: item }) => sum + item.price,
+                  0
+                )}
+                KSh
+              </TotalAmount>
+            </Totals>
+            <CheckoutButton
+              backgroundColor={colors.yellow}
+              onClick={() => navigateTo("/checkout")}
+            >
+              CHECKOUT
+            </CheckoutButton>
+          </TotalContainer>
+        )}
+      </CartPageContainer>
+    </div>
   );
 };
 
@@ -129,7 +140,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
 
 export const query = graphql`
   query CartQuery {
-    allDatoCmsClothingItem(sort: { fields: [position], order: ASC }) {
+    allDatoCmsClothingItem(
+      sort: { fields: [position], order: ASC }
+      filter: { available: { eq: true } }
+    ) {
       edges {
         node {
           id

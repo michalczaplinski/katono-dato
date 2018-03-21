@@ -87,6 +87,7 @@ class CartPage extends Component {
 
   render() {
     const {
+      transition,
       cart,
       removeItemFromCart,
       data: { allDatoCmsClothingItem: { edges: allItems } }
@@ -101,39 +102,40 @@ class CartPage extends Component {
     );
 
     return (
-      <CheckoutPageContainer>
-        <YourItems>YOUR STUFF:</YourItems>
-        <CheckoutItemsContainer>
-          <CheckoutItems>
-            {itemsInCart.map(({ node: item }) => (
-              <CheckoutItemContainer key={item.id}>
-                <CheckoutImageLink to={`/items/${item.slug}`}>
-                  <Img style={{}} sizes={item.coverImage.sizes} />
-                </CheckoutImageLink>
-              </CheckoutItemContainer>
-            ))}
-          </CheckoutItems>
-        </CheckoutItemsContainer>
-        <TotalContainer>
-          <Total>TOTAL:</Total>
-          <TotalAmount>{total} KSh</TotalAmount>
-        </TotalContainer>
-        <CheckoutFormContainer>
-          <div>
-            <Fade>
-              {!showHowItWorks ? (
-                <CartButton
-                  backgroundColor={colors.green}
-                  onClick={() => this.setState({ showHowItWorks: true })}
-                >
-                  TELL ME HOW IT WORKS !
-                </CartButton>
-              ) : (
-                <CartButton style={{ display: "none" }} />
-              )}
+      <div style={transition && transition.style}>
+        <CheckoutPageContainer>
+          <YourItems>YOUR STUFF:</YourItems>
+          <CheckoutItemsContainer>
+            <CheckoutItems>
+              {itemsInCart.map(({ node: item }) => (
+                <CheckoutItemContainer key={item.id}>
+                  <CheckoutImageLink to={`/items/${item.slug}`}>
+                    <Img style={{}} sizes={item.coverImage.sizes} />
+                  </CheckoutImageLink>
+                </CheckoutItemContainer>
+              ))}
+            </CheckoutItems>
+          </CheckoutItemsContainer>
+          <TotalContainer>
+            <Total>TOTAL:</Total>
+            <TotalAmount>{total} KSh</TotalAmount>
+          </TotalContainer>
+          <CheckoutFormContainer>
+            <Fade
+              in={!showHowItWorks}
+              enterDelay={250}
+              enterDuration={300}
+              exit={false}
+            >
+              <CartButton
+                backgroundColor={colors.green}
+                onClick={() => this.setState({ showHowItWorks: true })}
+              >
+                TELL ME HOW IT WORKS !
+              </CartButton>
             </Fade>
-            <Fade>
-              {showHowItWorks && (
+            <Fade in={showHowItWorks} enterDuration={600} exitDuration={250}>
+              <div>
                 <HowDoesItWork>
                   <p>
                     • Fill out your details and press <Bold>"BUY IT"</Bold> to
@@ -154,26 +156,23 @@ class CartPage extends Component {
                   <p>• We deliver anywhere within Nairobi!</p>
                   <p>• Delivery is extra 250 Ksh ☝️</p>
                   <p>
-                    • Please pay within 48h or we{"'"}ll be have to cancel your
+                    • Please pay within 48h or we'll be have to cancel your
                     order :) 🙏
                   </p>
                 </HowDoesItWork>
-              )}
-            </Fade>
-            <Fade>
-              {showHowItWorks && (
+
                 <CartButton
                   backgroundColor={colors.turquoise}
                   onClick={() => this.setState({ showHowItWorks: false })}
                 >
                   OK COOL.
                 </CartButton>
-              )}
+              </div>
             </Fade>
-          </div>
-          <CheckoutForm items={itemsInCart} total={total} />
-        </CheckoutFormContainer>
-      </CheckoutPageContainer>
+            <CheckoutForm items={itemsInCart} total={total} />
+          </CheckoutFormContainer>
+        </CheckoutPageContainer>
+      </div>
     );
   }
 }
@@ -187,7 +186,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
 
 export const query = graphql`
   query CheckoutQuery {
-    allDatoCmsClothingItem(sort: { fields: [position], order: ASC }) {
+    allDatoCmsClothingItem(
+      sort: { fields: [position], order: ASC }
+      filter: { available: { eq: true } }
+    ) {
       edges {
         node {
           id

@@ -18,7 +18,7 @@
     "normalize.css": "^7.0.0",
     "react-redux": "^5.0.7",
     "react-svg-spinner": "^1.0.0",
-    "react-transition-group": "1.x",
+    "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
     "styled-components": "^3.1.4"
   },
@@ -34,6 +34,7 @@
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "devDependencies": {
+    "@cherihung/eslint-config-gatsby": "^1.0.7",
     "@storybook/react": "^3.3.14",
     "babel-core": "^6.26.0",
     "babel-loader": "7.1.1",

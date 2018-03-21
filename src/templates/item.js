@@ -25,28 +25,35 @@ const Image = styled.div`
   margin: 0 auto;
 `;
 
-const Item = ({ cart, addItemToCart, data: { datoCmsClothingItem: item } }) => (
-  <article>
-    <HelmetDatoCms seo={item.seoMetaTags} />
-    <div>
-      <Image>
-        <Img sizes={item.coverImage.sizes} />
-      </Image>
-      <Size>{item.size}</Size>
-      <Price>{item.price} KSh</Price>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: item.descriptionNode.childMarkdownRemark.html
-        }}
-      />
-      <AddToCartButton
-        disabled={cart.includes(item.id)}
-        onClick={() => addItemToCart(item.id)}
-      >
-        ADD TO CART
-      </AddToCartButton>
-    </div>
-  </article>
+const Item = ({
+  cart,
+  addItemToCart,
+  data: { datoCmsClothingItem: item },
+  transition
+}) => (
+  <div style={transition && transition.style}>
+    <article>
+      <HelmetDatoCms seo={item.seoMetaTags} />
+      <div>
+        <Image>
+          <Img sizes={item.coverImage.sizes} />
+        </Image>
+        <Size>{item.size}</Size>
+        <Price>{item.price} KSh</Price>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: item.descriptionNode.childMarkdownRemark.html
+          }}
+        />
+        <AddToCartButton
+          disabled={cart.includes(item.id)}
+          onClick={() => addItemToCart(item.id)}
+        >
+          ADD TO CART
+        </AddToCartButton>
+      </div>
+    </article>
+  </div>
 );
 
 const mapStateToProps = ({ cart }) => ({ cart });

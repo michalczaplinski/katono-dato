@@ -11,8 +11,6 @@ const PageContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
-  width: auto;
-  height: auto;
   margin-top: 55px;
   margin-left: 20px;
   margin-right: 20px;
@@ -21,6 +19,7 @@ const PageContainer = styled.div`
 
 const PageInnerContainer = styled.div`
   position: absolute;
+  max-width: 1000px;
   width: 100%;
   height: 100%;
 `;
@@ -32,7 +31,9 @@ const Layout = ({ children, data, location, history }) => (
       seo={data.datoCmsHome.seoMetaTags}
     />
     <Topbar
-      showBackButton={location.pathname !== "/"}
+      showBackButton={
+        location.pathname !== "/" && location.pathname !== "/success"
+      }
       goBack={history.goBack}
     />
     <PageContainer>

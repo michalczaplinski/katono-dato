@@ -1,6 +1,9 @@
-import React from "react";
+/* global window, CustomEvent, localStorage */
+import React, { createElement } from "react";
 import { Router } from "react-router-dom";
 import { Provider } from "react-redux";
+import { Transition } from "react-transition-group";
+import createHistory from "history/createBrowserHistory";
 
 import createStore from "./src/state/createStore";
 
@@ -17,4 +20,120 @@ exports.replaceRouterComponent = ({ history }) => {
   );
 
   return ConnectedRouterWrapper;
+};
+
+const getTransitionStyles = (timeout, isBack) => ({
+  entering: {
+    transform: `translateX(${isBack ? "-" : ""}100vw)`
+  },
+  entered: {
+    transition: `transform ${timeout}ms ease-out`,
+    transform: `translateX(0px)`
+  },
+  exiting: {
+    transition: `transform ${timeout}ms ease-in`,
+    transform: `translateX(${isBack ? "" : "-"}100vw)`
+  }
+});
+
+const getTransitionStyle = ({ timeout, status, isBack }) =>
+  getTransitionStyles(timeout, isBack)[status];
+
+const timeout = 300;
+const historyExitingEventType = `history::exiting`;
+
+const getUserConfirmation = (pathname, callback) => {
+  const event = new CustomEvent(historyExitingEventType, {
+    detail: { pathname }
+  });
+  window.dispatchEvent(event);
+  setTimeout(() => {
+    callback(true);
+  }, timeout);
+};
+
+const history = createHistory({ getUserConfirmation });
+// block must return a string to conform
+history.block((location, action) => location.pathname);
+
+exports.replaceHistory = () => history;
+
+class ReplaceComponentRenderer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { exiting: false, nextPageResources: {} };
+    this.listenerHandler = this.listenerHandler.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener(historyExitingEventType, this.listenerHandler);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location.key !== nextProps.location.key) {
+      this.setState({ exiting: false, nextPageResources: {} });
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(historyExitingEventType, this.listenerHandler);
+  }
+
+  listenerHandler(event) {
+    const nextPageResources =
+      this.props.loader.getResourcesForPathname(
+        event.detail.pathname,
+        nextPageResources => this.setState({ nextPageResources })
+      ) || {};
+    this.setState({ exiting: true, nextPageResources });
+  }
+
+  render() {
+    const transitionProps = {
+      timeout: {
+        enter: 0,
+        exit: timeout
+      },
+      appear: true,
+      in: !this.state.exiting,
+      key: this.props.location.key
+    };
+
+    return (
+      <Transition {...transitionProps}>
+        {status =>
+          createElement(this.props.pageResources.component, {
+            ...this.props,
+            ...this.props.pageResources.json,
+            transition: {
+              status,
+              timeout,
+              style: getTransitionStyle({
+                isBack: window.__isBack,
+                status,
+                timeout
+              }),
+              nextPageResources: this.state.nextPageResources
+            }
+          })
+        }
+      </Transition>
+    );
+  }
+}
+
+exports.onRouteUpdate = ({ location }) => {
+  window.__isBack = false;
+};
+
+// eslint-disable-next-line react/display-name
+exports.replaceComponentRenderer = ({ props, loader }) => {
+  if (props.layout) {
+    return undefined;
+  }
+
+  return createElement(ReplaceComponentRenderer, {
+    ...props,
+    loader
+  });
 };

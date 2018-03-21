@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Link from "gatsby-link";
+import Link, { navigateTo } from "gatsby-link";
 import { connect } from "react-redux";
 
 import katonoLogo from "../static/katono-logo.svg";
@@ -82,7 +82,17 @@ const StyledLink = styled(Link)`
 
 const Topbar = ({ showBackButton, numItemsInCart, goBack }) => (
   <StyledTopbar>
-    {showBackButton ? <BackButton onClick={goBack} /> : <Logo />}
+    {showBackButton ? (
+      <BackButton
+        onClick={() => {
+          window.__isBack = true;
+          goBack();
+          // navigateTo({ pathname: "/cart", state: { isBack: true } });
+        }}
+      />
+    ) : (
+      <Logo />
+    )}
     <StyledLink to="/">
       <Title>KATONO</Title>
     </StyledLink>

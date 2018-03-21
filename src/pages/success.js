@@ -1,3 +1,5 @@
+/* global window */
+
 import React from "react";
 import { connect } from "react-redux";
 import styled, { css } from "styled-components";
@@ -27,55 +29,28 @@ const Email = styled.span`
   ${boldStyle};
 `;
 
-const SuccessPage = ({
-  cart,
-  data: { allDatoCmsClothingItem: { edges: allItems } }
-}) => (
-  <SuccessPageContainer>
-    <h2>
-      Thank you for your order,
-      <Name> {window.clientDetails.firstName}</Name>!
-    </h2>
-    <span>
-      The total is:
-      <Total> {window.clientDetails.total} Ksh</Total>
-    </span>
-    <p>
-      Details have been sent to your email:
-      <Email> {window.clientDetails.email} </Email>
-    </p>
-    <p>PLEASE PAY WIHIN 48H OR WE WILL HAVE TO CANCEL YOUR ORDER :)</p>
+const SuccessPage = ({ transition }) => (
+  <div style={transition && transition.style}>
+    <SuccessPageContainer>
+      <h2>
+        Thank you for your order,
+        <Name> {window.clientDetails.firstName}</Name>!
+      </h2>
+      <span>
+        The total is:
+        <Total> {window.clientDetails.total} Ksh </Total>(not counting
+        delivery).
+      </span>
+      <p>
+        Details have been sent to your email:
+        <Email> {window.clientDetails.email} </Email>
+      </p>
 
-    <CartButton onClick={() => navigateTo("/")}> 👈 SHOP MORE </CartButton>
-  </SuccessPageContainer>
+      <CartButton onClick={() => navigateTo("/")}> 👈 SHOP MORE </CartButton>
+    </SuccessPageContainer>
+  </div>
 );
 
 const mapStateToProps = ({ cart }) => ({ cart });
 
 export default connect(mapStateToProps, null)(SuccessPage);
-
-export const query = graphql`
-  query SuccessQuery {
-    allDatoCmsClothingItem(sort: { fields: [position], order: ASC }) {
-      edges {
-        node {
-          id
-          title
-          slug
-          description
-          price
-          size
-          tags {
-            id
-            name
-          }
-          coverImage {
-            sizes(maxWidth: 500, imgixParams: { fm: "jpg", auto: "compress" }) {
-              ...GatsbyDatoCmsSizes
-            }
-          }
-        }
-      }
-    }
-  }
-`;
