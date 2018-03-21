@@ -1,6 +1,7 @@
 export default {
-  red: "red",
-  green: "#02da02",
-  honeydew: "#F3FAF1",
-  turquoise: "#00fdff"
+  red: "#ff2121",
+  green: "#23FF0F",
+  yellow: "#ffff00",
+  turquoise: "#00fdff",
+  honeydew: "#F3FAF1"
 };
