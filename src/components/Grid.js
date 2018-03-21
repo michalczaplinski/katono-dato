@@ -3,42 +3,23 @@ import styled from "styled-components";
 
 const Box = styled.div`
   height: auto;
+  width: 100%;
   padding-left: 2%;
   padding-right: 2%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
+  display: inline-block;
 `;
 
 const Grid = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-flow: row wrap;
+  column-gap: 1em;
 
-  @media (max-width: 300px) {
-    display: block;
+  @media (min-width: 300px) {
+    column-count: 2;
   }
-
-  ${Box} {
-    width: 100%;
-
-    @media (min-width: 300px) {
-      width: 50%;
-      height: auto;
-    }
-    @media (min-width: 650px) {
-      width: 33.333%;
-      height: auto;
-    }
-    @media (min-width: 920px) {
-      width: 25%;
-      height: auto;
-    }
-    @media (min-width: 1220px) {
-      width: 20%;
-      height: auto;
-    }
+  @media (min-width: 650px) {
+    column-count: 3;
+  }
+  @media (min-width: 900px) {
+    column-count: 4;
   }
 `;
 
