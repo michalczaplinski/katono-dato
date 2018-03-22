@@ -36,7 +36,7 @@ export const query = graphql`
             name
           }
           coverImage {
-            sizes(maxWidth: 500, imgixParams: { fm: "jpg", auto: "compress" }) {
+            sizes(maxWidth: 250, imgixParams: { fm: "jpg", auto: "compress" }) {
               ...GatsbyDatoCmsSizes
             }
           }

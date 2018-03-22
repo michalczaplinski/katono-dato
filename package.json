@@ -34,7 +34,6 @@
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "devDependencies": {
-    "@cherihung/eslint-config-gatsby": "^1.0.7",
     "@storybook/react": "^3.3.14",
     "babel-core": "^6.26.0",
     "babel-loader": "7.1.1",

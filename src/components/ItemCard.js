@@ -20,6 +20,10 @@ const ItemCardStyled = styled.div`
   height: 100%;
   max-width: 500px;
   overflow: hidden;
+  transition: opacity 300ms ease-in-out;
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 const ItemLink = styled(Link)`

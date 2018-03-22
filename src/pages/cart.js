@@ -73,6 +73,10 @@ const TotalAmount = styled.span`
   font-style: italic;
 `;
 
+const EmptyCart = styled.p`
+  font-weight: bold;
+`;
+
 const CartPage = ({
   transition,
   cart,
@@ -80,7 +84,6 @@ const CartPage = ({
   data: { allDatoCmsClothingItem: { edges: allItems } }
 }) => {
   const itemsInCart = allItems.filter(item => cart.includes(item.node.id));
-
   const hasItemsInCart = itemsInCart.length > 0;
 
   return (
@@ -99,11 +102,18 @@ const CartPage = ({
                   <Price>{item.price} KSh</Price>
                   <RemoveButton onClick={() => removeItemFromCart(item.id)} />
                 </CartItemContainer>
-                {!hasItemsInCart && <p> YOUR CART IS EMPTY ! </p>}
               </div>
             </Fade>
           ))}
         </TransitionGroup>
+        {!hasItemsInCart && (
+          <div>
+            <EmptyCart> OH WELL, YOUR CART IS EMPTY... 😳 </EmptyCart>
+            <CartButton onClick={() => navigateTo("/")}>
+              GO PICK SOME STUFF 👉
+            </CartButton>
+          </div>
+        )}
         {hasItemsInCart && (
           <TotalContainer>
             <Totals>

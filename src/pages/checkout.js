@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Link from "gatsby-link";
+import Link, { navigateTo } from "gatsby-link";
 import Img from "gatsby-image";
 import styled from "styled-components";
 
@@ -75,6 +75,10 @@ const Bold = styled.span`
   font-weight: bolder;
 `;
 
+const EmptyCart = styled.p`
+  font-weight: bold;
+`;
+
 const CheckoutFormContainer = CheckoutItemsContainer;
 
 class CartPage extends Component {
@@ -96,6 +100,7 @@ class CartPage extends Component {
     const { showHowItWorks } = this.state;
 
     const itemsInCart = allItems.filter(item => cart.includes(item.node.id));
+    const hasItemsInCart = itemsInCart.length > 0;
     const total = itemsInCart.reduce(
       (sum, { node: item }) => sum + item.price,
       0
@@ -104,6 +109,16 @@ class CartPage extends Component {
     return (
       <div style={transition && transition.style}>
         <CheckoutPageContainer>
+          {!hasItemsInCart && (
+            <div>
+              <EmptyCart>
+                OH WELL, YOU HAVE NO STUFF TO CHECK OUT... 😳
+              </EmptyCart>
+              <CartButton onClick={() => navigateTo("/")}>
+                GO PICK SOME STUFF 👉
+              </CartButton>
+            </div>
+          )}
           <YourItems>YOUR STUFF:</YourItems>
           <CheckoutItemsContainer>
             <CheckoutItems>
