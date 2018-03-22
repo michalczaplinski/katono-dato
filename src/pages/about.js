@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import { HelmetDatoCms } from "gatsby-source-datocms";
 import Img from "gatsby-image";
 
 const About = ({ data: { about } }) => (

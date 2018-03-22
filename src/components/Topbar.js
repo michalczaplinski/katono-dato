@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import Link, { navigateTo } from "gatsby-link";
+import Link from "gatsby-link";
 import { connect } from "react-redux";
 
 import katonoLogo from "../static/katono-logo.svg";
 import shoppingCart from "../static/shopping-cart.svg";
 import backArrow from "../static/back-arrow.svg";
 
+import colors from "../styles/colors";
 import "../styles/fonts.css";
 
 const StyledTopbar = styled.div`
@@ -56,7 +57,7 @@ const ItemCounter = styled.div`
   right: 6px;
   width: 15px;
   height: 15px;
-  background-color: red;
+  background-color: ${colors.red};
   border-radius: 50%;
   color: white;
   text-align: center;

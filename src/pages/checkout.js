@@ -143,7 +143,7 @@ class CartPage extends Component {
               exit={false}
             >
               <CartButton
-                backgroundColor={colors.green}
+                backgroundColor={colors.blue}
                 onClick={() => this.setState({ showHowItWorks: true })}
               >
                 TELL ME HOW IT WORKS !

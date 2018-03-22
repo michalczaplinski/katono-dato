@@ -12,6 +12,8 @@ import config from "../config";
 import CartButton from "./CartButton";
 import Fade from "./Fade";
 
+import colors from "../styles/colors";
+
 function FormDataToJSON(formData) {
   const data = {};
   for (const key of formData.keys()) {
@@ -237,7 +239,7 @@ class CheckoutForm extends Component {
     if (loading) {
       return (
         <Loading>
-          <Spinner size="100px" color="red" />
+          <Spinner size="100px" color={colors.red} />
         </Loading>
       );
     }

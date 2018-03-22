@@ -2,26 +2,7 @@
   box-sizing: border-box;
 }
 
-.fade-enter {
-  opacity: 0.01;
-}
-
-.fade-enter.fade-enter-active {
-  opacity: 1;
-  transition: all 400ms ease-in;
-}
-
-.fade-leave {
-  opacity: 1;
-}
-
-.fade-leave.fade-leave-active {
-  opacity: 0.01;
-  transition: all 250ms ease-in;
-}
-
 /* FORMS */
-
 
 .displayFormErrors input:invalid {
   border-color: red;

@@ -1,10 +1,9 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import { HelmetDatoCms } from "gatsby-source-datocms";
 import { connect } from "react-redux";
 import Img from "gatsby-image";
 import styled, { css } from "styled-components";
 
-import Fade from "../components/Fade";
 import AddToCartButton from "../components/CartButton";
 
 const ItemContainer = styled.article`
