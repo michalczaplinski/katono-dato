@@ -1,5 +1,5 @@
 import React from "react";
-import { HelmetDatoCms } from "gatsby-source-datocms";
+import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import Img from "gatsby-image";
 import styled, { css } from "styled-components";
