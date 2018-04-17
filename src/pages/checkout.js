@@ -99,7 +99,9 @@ class CartPage extends Component {
 
     const { showHowItWorks } = this.state;
 
-    const itemsInCart = allItems.filter(item => cart.includes(item.node.id));
+    const itemsInCart = allItems.filter(
+      item => cart.indexOf(item.node.id) !== -1
+    );
     const hasItemsInCart = itemsInCart.length > 0;
     const total = itemsInCart.reduce(
       (sum, { node: item }) => sum + item.price,

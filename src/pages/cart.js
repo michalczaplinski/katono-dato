@@ -83,7 +83,9 @@ const CartPage = ({
   removeItemFromCart,
   data: { allDatoCmsClothingItem: { edges: allItems } }
 }) => {
-  const itemsInCart = allItems.filter(item => cart.includes(item.node.id));
+  const itemsInCart = allItems.filter(
+    item => cart.indexOf(item.node.id) !== -1
+  );
   const hasItemsInCart = itemsInCart.length > 0;
 
   return (

@@ -64,7 +64,7 @@ const ItemCard = ({ cart, item, addItemToCart }) => (
         <Price>{item.price} KSh</Price>
       </DetailsContainer>
       <CartButton
-        disabled={cart.includes(item.id)}
+        disabled={cart.indexOf(item.id) !== -1}
         onClick={() => addItemToCart(item.id)}
       >
         ADD TO CART
