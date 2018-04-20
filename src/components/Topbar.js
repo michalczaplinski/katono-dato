@@ -18,7 +18,7 @@ const StyledTopbar = styled.div`
   width: 100%;
   height: 45px;
   margin-bottom: 60px;
-  background-color: white;
+  background-color: ${colors.backgroundColor};
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
   z-index: 1000;
   border: 0px;

@@ -8,7 +8,7 @@ export default styled.div`
   height: 40px;
   line-height: 1.9;
   font-size: 16px;
-  background-color: ${props => props.backgroundColor || colors.red};
+  background-color: ${props => props.backgroundColor || colors.turquoise};
   text-align: center;
   font-weight: bold;
   border: ${props => props.border || "4px solid #333333"};

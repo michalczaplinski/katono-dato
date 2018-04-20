@@ -329,7 +329,7 @@ class CheckoutForm extends Component {
           </div>
         </Fade>
 
-        <CheckoutButton> BUY IT 👍 </CheckoutButton>
+        <CheckoutButton backgroundColor="red"> BUY IT 👍 </CheckoutButton>
       </Form>
     );
   }

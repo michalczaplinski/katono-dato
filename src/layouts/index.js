@@ -5,6 +5,7 @@ import styled from "styled-components";
 import "normalize.css";
 import "../styles/index.css";
 
+import colors from "../styles/colors";
 import Topbar from "../components/Topbar";
 
 import appleTouchIcon from "../static/favicon/apple-touch-icon.png";
@@ -17,20 +18,21 @@ const siteManifest = "../static/favicon/site.webmanifest";
 const browserconfig = "../static/favicon/browserconfig.xml";
 
 const PageContainer = styled.div`
-  position: relative;
+  width: auto;
+  height: auto;
+  position: absolute;
   display: flex;
   justify-content: center;
-  margin-top: 55px;
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-bottom: 20px;
+  top: 45px;
+  left: 0;
+  right: 0;
+  background-color: ${colors.backgroundColor};
 `;
 
 const PageInnerContainer = styled.div`
-  position: absolute;
   max-width: 1000px;
-  width: 100%;
-  height: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
 `;
 
 const Layout = ({ children, data, location, history }) => (
