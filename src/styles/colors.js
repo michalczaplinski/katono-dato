@@ -8,7 +8,8 @@ export default {
   darkBlue: "#4357AD",
   purple: "#9381FF",
   blue: "#5DA9E9",
-  almostBlack: "#333333"
+  almostBlack: "#333333",
+  backgroundColor: "rgb(255, 228, 190)"
 };
 
 /**
