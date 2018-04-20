@@ -1,7 +1,8 @@
-/* global window, CustomEvent, localStorage */
+/* global window, CustomEvent, Raven */
 import React, { createElement } from "react";
 import { Router } from "react-router-dom";
 import { Provider } from "react-redux";
+import localStore from "store";
 import { Transition } from "react-transition-group";
 import createHistory from "history/createBrowserHistory";
 
@@ -9,7 +10,11 @@ import createStore from "./src/state/createStore";
 
 const store = createStore();
 store.subscribe(() => {
-  localStorage.setItem("cart", JSON.stringify(store.getState().cart));
+  try {
+    localStore.set("cart", JSON.stringify(store.getState().cart));
+  } catch (e) {
+    Raven.capturException(e);
+  }
 });
 
 exports.replaceRouterComponent = ({ history }) => {

@@ -22,6 +22,7 @@
     "react-svg-spinner": "^1.0.0",
     "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
+    "store": "^2.0.12",
     "styled-components": "^3.1.4"
   },
   "keywords": [
@@ -30,8 +31,8 @@
   "license": "MIT",
   "main": "n/a",
   "scripts": {
+    "start": "gatsby develop",
     "build": "gatsby build",
-    "develop": "gatsby develop",
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
