@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Img from "gatsby-image";
 import styled, { css } from "styled-components";
 
+import pageTransition from "../styles/pageTransition";
 import AddToCartButton from "../components/CartButton";
 
 const ItemContainer = styled.article`
@@ -120,33 +121,26 @@ class Images extends React.Component {
   }
 }
 
-const Item = ({
-  cart,
-  addItemToCart,
-  data: { datoCmsClothingItem: item },
-  transition
-}) => (
-  <div style={transition && transition.style}>
-    <ItemContainer>
-      <HelmetDatoCms seo={item.seoMetaTags} />
-      <div>
-        <Images mainImage={item.coverImage} images={item.gallery} />
-        <Size>{item.size}</Size>
-        <Price>{item.price} KSh</Price>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: item.descriptionNode.childMarkdownRemark.html
-          }}
-        />
-        <AddToCartButton
-          disabled={cart.indexOf(item.id) !== -1}
-          onClick={() => addItemToCart(item.id)}
-        >
-          ADD TO CART
-        </AddToCartButton>
-      </div>
-    </ItemContainer>
-  </div>
+const Item = ({ cart, addItemToCart, data: { datoCmsClothingItem: item } }) => (
+  <ItemContainer>
+    <HelmetDatoCms seo={item.seoMetaTags} />
+    <div>
+      <Images mainImage={item.coverImage} images={item.gallery} />
+      <Size>{item.size}</Size>
+      <Price>{item.price} KSh</Price>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: item.descriptionNode.childMarkdownRemark.html
+        }}
+      />
+      <AddToCartButton
+        disabled={cart.indexOf(item.id) !== -1}
+        onClick={() => addItemToCart(item.id)}
+      >
+        ADD TO CART
+      </AddToCartButton>
+    </div>
+  </ItemContainer>
 );
 
 const mapStateToProps = ({ cart }) => ({ cart });
@@ -154,7 +148,9 @@ const mapDispatchToProps = dispatch => ({
   addItemToCart: id => dispatch({ type: "ADD_ITEM_TO_CART", id })
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Item);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  pageTransition(Item)
+);
 
 export const query = graphql`
   query ClothingItemQuery($slug: String!) {

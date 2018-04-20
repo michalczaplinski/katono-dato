@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import styled, { css } from "styled-components";
 import { navigateTo } from "gatsby-link";
 
+import pageTransition from "../styles/pageTransition";
 import CartButton from "../components/CartButton";
 
 const SuccessPageContainer = styled.div`
@@ -37,31 +38,28 @@ class SuccessPage extends React.Component {
   }
 
   render() {
-    const { transition } = this.props;
     return (
-      <div style={transition && transition.style}>
-        <SuccessPageContainer>
-          <h2>
-            Thank you for your order,
-            <Name> {window.clientDetails.firstName}</Name>!
-          </h2>
-          <span>
-            The total is:
-            <Total> {window.clientDetails.total} Ksh </Total>(not counting
-            delivery).
-          </span>
-          <p>
-            Details have been sent to your email:
-            <Email> {window.clientDetails.email} </Email>
-          </p>
+      <SuccessPageContainer>
+        <h2>
+          Thank you for your order,
+          <Name> {window.clientDetails.firstName}</Name>!
+        </h2>
+        <span>
+          The total is:
+          <Total> {window.clientDetails.total} Ksh </Total>(not counting
+          delivery).
+        </span>
+        <p>
+          Details have been sent to your email:
+          <Email> {window.clientDetails.email} </Email>
+        </p>
 
-          <CartButton onClick={() => navigateTo("/")}>👈 SHOP MORE</CartButton>
-        </SuccessPageContainer>
-      </div>
+        <CartButton onClick={() => navigateTo("/")}>👈 SHOP MORE</CartButton>
+      </SuccessPageContainer>
     );
   }
 }
 
 const mapStateToProps = ({ cart }) => ({ cart });
 
-export default connect(mapStateToProps, null)(SuccessPage);
+export default connect(mapStateToProps, null)(pageTransition(SuccessPage));

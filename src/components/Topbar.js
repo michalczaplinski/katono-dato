@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Link from "gatsby-link";
 import { connect } from "react-redux";
 
-import katonoLogo from "../static/katono-logo.svg";
+import katonoLogo from "../static/katono-logo.v2.svg";
 import shoppingCart from "../static/shopping-cart.svg";
 import backArrow from "../static/back-arrow.svg";
 

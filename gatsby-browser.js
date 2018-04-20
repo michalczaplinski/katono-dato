@@ -29,15 +29,18 @@ exports.replaceRouterComponent = ({ history }) => {
 
 const getTransitionStyles = (timeout, isBack) => ({
   entering: {
-    transform: `translateX(${isBack ? "-" : ""}100vw)`
+    transform: `translateY(${isBack ? "-" : ""}10px)`,
+    opacity: 0
   },
   entered: {
-    transition: `transform ${timeout}ms ease-out`,
-    transform: `translateX(0px)`
+    transition: `all ${timeout}ms ease-out`,
+    transform: `translateY(0px)`,
+    opacity: 100
   },
   exiting: {
-    transition: `transform ${timeout}ms ease-in`,
-    transform: `translateX(${isBack ? "" : "-"}100vw)`
+    transition: `all ${timeout}ms ease-in`,
+    transform: `translateY(${isBack ? "" : "-"}10px)`,
+    opacity: 0
   }
 });
 

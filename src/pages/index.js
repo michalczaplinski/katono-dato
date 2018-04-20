@@ -2,20 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Grid, Box } from "../components/Grid";
 import ItemCard from "../components/ItemCard";
+import pageTransition from "../styles/pageTransition";
 
-const IndexPage = ({ transition, data }) => (
-  <div style={transition && transition.style}>
-    <Grid>
-      {data.allDatoCmsClothingItem.edges.map(({ node: item }) => (
-        <Box key={item.id}>
-          <ItemCard item={item} />
-        </Box>
-      ))}
-    </Grid>
-  </div>
+const IndexPage = ({ data }) => (
+  <Grid>
+    {data.allDatoCmsClothingItem.edges.map(({ node: item }) => (
+      <Box key={item.id}>
+        <ItemCard item={item} />
+      </Box>
+    ))}
+  </Grid>
 );
 
-export default IndexPage;
+export default pageTransition(IndexPage);
 
 export const query = graphql`
   query IndexQuery {
