@@ -26,13 +26,11 @@ const PageContainer = styled.div`
   top: 45px;
   left: 0;
   right: 0;
-  background-color: ${colors.backgroundColor};
-`;
-
-const PageInnerContainer = styled.div`
-  max-width: 1000px;
+  min-height: 100%;
+  min-width: 100%;
   padding-left: 20px;
   padding-right: 20px;
+  background-color: ${colors.backgroundColor};
 `;
 
 const Layout = ({ children, data, location, history }) => (
@@ -60,9 +58,7 @@ const Layout = ({ children, data, location, history }) => (
       }
       goBack={history.goBack}
     />
-    <PageContainer>
-      <PageInnerContainer>{children()}</PageInnerContainer>
-    </PageContainer>
+    <PageContainer>{children()}</PageContainer>
   </div>
 );
 

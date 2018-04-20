@@ -5,6 +5,7 @@ import Img from "gatsby-image";
 import styled from "styled-components";
 import { TransitionGroup } from "react-transition-group";
 
+import pageTransition from "../styles/pageTransition";
 import colors from "../styles/colors";
 import trashIcon from "../static/trash.svg";
 import CartButton from "../components/CartButton";
@@ -78,7 +79,6 @@ const EmptyCart = styled.p`
 `;
 
 const CartPage = ({
-  transition,
   cart,
   removeItemFromCart,
   data: { allDatoCmsClothingItem: { edges: allItems } }
@@ -89,57 +89,52 @@ const CartPage = ({
   const hasItemsInCart = itemsInCart.length > 0;
 
   return (
-    <div style={transition && transition.style}>
-      <CartPageContainer>
-        <TransitionGroup>
-          {itemsInCart.map(({ node: item }) => (
-            <Fade key={item.id}>
-              <div>
-                <CartItemContainer>
-                  <CartImageLink to={`/items/${item.slug}`}>
-                    <Img style={{}} sizes={item.coverImage.sizes} />
-                  </CartImageLink>
-                  <p>{item.title}</p>
-                  <Size>{item.size}</Size>
-                  <Price>{item.price} KSh</Price>
-                  <RemoveButton onClick={() => removeItemFromCart(item.id)} />
-                </CartItemContainer>
-              </div>
-            </Fade>
-          ))}
-        </TransitionGroup>
-        {!hasItemsInCart && (
-          <div>
-            <EmptyCart> OH WELL, YOUR CART IS EMPTY... 😳 </EmptyCart>
-            <CartButton onClick={() => navigateTo("/")}>
-              GO PICK SOME STUFF 👉
-            </CartButton>
-          </div>
-        )}
-        {hasItemsInCart && (
-          <TotalContainer>
-            <Totals>
-              <Total style={{ marginRight: "10px", fontWeight: "bold" }}>
-                TOTAL:
-              </Total>
-              <TotalAmount>
-                {itemsInCart.reduce(
-                  (sum, { node: item }) => sum + item.price,
-                  0
-                )}
-                KSh
-              </TotalAmount>
-            </Totals>
-            <CheckoutButton
-              backgroundColor={colors.yellow}
-              onClick={() => navigateTo("/checkout")}
-            >
-              CHECKOUT
-            </CheckoutButton>
-          </TotalContainer>
-        )}
-      </CartPageContainer>
-    </div>
+    <CartPageContainer>
+      <TransitionGroup>
+        {itemsInCart.map(({ node: item }) => (
+          <Fade key={item.id}>
+            <div>
+              <CartItemContainer>
+                <CartImageLink to={`/items/${item.slug}`}>
+                  <Img style={{}} sizes={item.coverImage.sizes} />
+                </CartImageLink>
+                <p>{item.title}</p>
+                <Size>{item.size}</Size>
+                <Price>{item.price} KSh</Price>
+                <RemoveButton onClick={() => removeItemFromCart(item.id)} />
+              </CartItemContainer>
+            </div>
+          </Fade>
+        ))}
+      </TransitionGroup>
+      {!hasItemsInCart && (
+        <div>
+          <EmptyCart> OH WELL, YOUR CART IS EMPTY... 😳 </EmptyCart>
+          <CartButton onClick={() => navigateTo("/")}>
+            GO PICK SOME STUFF 👉
+          </CartButton>
+        </div>
+      )}
+      {hasItemsInCart && (
+        <TotalContainer>
+          <Totals>
+            <Total style={{ marginRight: "10px", fontWeight: "bold" }}>
+              TOTAL:
+            </Total>
+            <TotalAmount>
+              {itemsInCart.reduce((sum, { node: item }) => sum + item.price, 0)}
+              KSh
+            </TotalAmount>
+          </Totals>
+          <CheckoutButton
+            backgroundColor={colors.yellow}
+            onClick={() => navigateTo("/checkout")}
+          >
+            CHECKOUT
+          </CheckoutButton>
+        </TotalContainer>
+      )}
+    </CartPageContainer>
   );
 };
 
@@ -148,7 +143,9 @@ const mapDispatchToProps = dispatch => ({
   removeItemFromCart: id => dispatch({ type: "REMOVE_ITEM_FROM_CART", id })
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  pageTransition(CartPage)
+);
 
 export const query = graphql`
   query CartQuery {

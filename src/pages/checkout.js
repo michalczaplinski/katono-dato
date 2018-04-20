@@ -5,6 +5,7 @@ import Link, { navigateTo } from "gatsby-link";
 import Img from "gatsby-image";
 import styled from "styled-components";
 
+import pageTransition from "../styles/pageTransition";
 import colors from "../styles/colors";
 import CheckoutForm from "../components/CheckoutForm";
 import CartButton from "../components/CartButton";
@@ -91,7 +92,6 @@ class CartPage extends Component {
 
   render() {
     const {
-      transition,
       cart,
       removeItemFromCart,
       data: { allDatoCmsClothingItem: { edges: allItems } }
@@ -109,87 +109,82 @@ class CartPage extends Component {
     );
 
     return (
-      <div style={transition && transition.style}>
-        <CheckoutPageContainer>
-          {!hasItemsInCart && (
+      <CheckoutPageContainer>
+        {!hasItemsInCart && (
+          <div>
+            <EmptyCart>OH WELL, YOU HAVE NO STUFF TO CHECK OUT... 😳</EmptyCart>
+            <CartButton onClick={() => navigateTo("/")}>
+              GO PICK SOME STUFF 👉
+            </CartButton>
+          </div>
+        )}
+        <YourItems>YOUR STUFF:</YourItems>
+        <CheckoutItemsContainer>
+          <CheckoutItems>
+            {itemsInCart.map(({ node: item }) => (
+              <CheckoutItemContainer key={item.id}>
+                <CheckoutImageLink to={`/items/${item.slug}`}>
+                  <Img style={{}} sizes={item.coverImage.sizes} />
+                </CheckoutImageLink>
+              </CheckoutItemContainer>
+            ))}
+          </CheckoutItems>
+        </CheckoutItemsContainer>
+        <TotalContainer>
+          <Total>TOTAL:</Total>
+          <TotalAmount>{total} KSh</TotalAmount>
+        </TotalContainer>
+        <CheckoutFormContainer>
+          <Fade
+            in={!showHowItWorks}
+            enterDelay={250}
+            enterDuration={300}
+            exit={false}
+          >
+            <CartButton
+              backgroundColor={colors.blue}
+              onClick={() => this.setState({ showHowItWorks: true })}
+            >
+              TELL ME HOW IT WORKS !
+            </CartButton>
+          </Fade>
+          <Fade in={showHowItWorks} enterDuration={600} exitDuration={250}>
             <div>
-              <EmptyCart>
-                OH WELL, YOU HAVE NO STUFF TO CHECK OUT... 😳
-              </EmptyCart>
-              <CartButton onClick={() => navigateTo("/")}>
-                GO PICK SOME STUFF 👉
+              <HowDoesItWork>
+                <p>
+                  • Fill out your details and press <Bold>"BUY IT"</Bold> to
+                  confirm your order.
+                </p>
+                <p>
+                  • We{"'"}ll be in touch right away to confirm your purchase 🙋
+                </p>
+                <p>
+                  • You can pay either by <Bold> cash </Bold> or
+                  <Bold> M-PESA</Bold>.
+                </p>
+                <p>
+                  • You can pick up from <Bold>Diamond Plaza</Bold> in Nairobi
+                  or from an arranged location in <Bold>CBD</Bold>.
+                </p>
+                <p>• We deliver anywhere within Nairobi!</p>
+                <p>• Delivery is extra 250 Ksh ☝️</p>
+                <p>
+                  • Please pay within 48h or we'll be have to cancel your order
+                  :) 🙏
+                </p>
+              </HowDoesItWork>
+
+              <CartButton
+                backgroundColor={colors.turquoise}
+                onClick={() => this.setState({ showHowItWorks: false })}
+              >
+                OK COOL.
               </CartButton>
             </div>
-          )}
-          <YourItems>YOUR STUFF:</YourItems>
-          <CheckoutItemsContainer>
-            <CheckoutItems>
-              {itemsInCart.map(({ node: item }) => (
-                <CheckoutItemContainer key={item.id}>
-                  <CheckoutImageLink to={`/items/${item.slug}`}>
-                    <Img style={{}} sizes={item.coverImage.sizes} />
-                  </CheckoutImageLink>
-                </CheckoutItemContainer>
-              ))}
-            </CheckoutItems>
-          </CheckoutItemsContainer>
-          <TotalContainer>
-            <Total>TOTAL:</Total>
-            <TotalAmount>{total} KSh</TotalAmount>
-          </TotalContainer>
-          <CheckoutFormContainer>
-            <Fade
-              in={!showHowItWorks}
-              enterDelay={250}
-              enterDuration={300}
-              exit={false}
-            >
-              <CartButton
-                backgroundColor={colors.blue}
-                onClick={() => this.setState({ showHowItWorks: true })}
-              >
-                TELL ME HOW IT WORKS !
-              </CartButton>
-            </Fade>
-            <Fade in={showHowItWorks} enterDuration={600} exitDuration={250}>
-              <div>
-                <HowDoesItWork>
-                  <p>
-                    • Fill out your details and press <Bold>"BUY IT"</Bold> to
-                    confirm your order.
-                  </p>
-                  <p>
-                    • We{"'"}ll be in touch right away to confirm your purchase
-                    🙋
-                  </p>
-                  <p>
-                    • You can pay either by <Bold> cash </Bold> or
-                    <Bold> M-PESA</Bold>.
-                  </p>
-                  <p>
-                    • You can pick up from <Bold>Diamond Plaza</Bold> in Nairobi
-                    or from an arranged location in <Bold>CBD</Bold>.
-                  </p>
-                  <p>• We deliver anywhere within Nairobi!</p>
-                  <p>• Delivery is extra 250 Ksh ☝️</p>
-                  <p>
-                    • Please pay within 48h or we'll be have to cancel your
-                    order :) 🙏
-                  </p>
-                </HowDoesItWork>
-
-                <CartButton
-                  backgroundColor={colors.turquoise}
-                  onClick={() => this.setState({ showHowItWorks: false })}
-                >
-                  OK COOL.
-                </CartButton>
-              </div>
-            </Fade>
-            <CheckoutForm items={itemsInCart} total={total} />
-          </CheckoutFormContainer>
-        </CheckoutPageContainer>
-      </div>
+          </Fade>
+          <CheckoutForm items={itemsInCart} total={total} />
+        </CheckoutFormContainer>
+      </CheckoutPageContainer>
     );
   }
 }
@@ -199,7 +194,9 @@ const mapDispatchToProps = dispatch => ({
   removeItemFromCart: id => dispatch({ type: "REMOVE_ITEM_FROM_CART", id })
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  pageTransition(CartPage)
+);
 
 export const query = graphql`
   query CheckoutQuery {

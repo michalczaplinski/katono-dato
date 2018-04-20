@@ -14,17 +14,19 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           }
         }
       }
-    `).then(result => {
-      result.data.allDatoCmsClothingItem.edges.map(({ node: item }) => {
-        createPage({
-          path: `items/${item.slug}`,
-          component: path.resolve(`./src/templates/item.js`),
-          context: {
-            slug: item.slug
-          }
+    `)
+      .then(result => {
+        result.data.allDatoCmsClothingItem.edges.map(({ node: item }) => {
+          createPage({
+            path: `items/${item.slug}`,
+            component: path.resolve(`./src/templates/item.js`),
+            context: {
+              slug: item.slug
+            }
+          });
         });
-      });
-      resolve();
-    });
+        resolve();
+      })
+      .catch(e => reject(e));
   });
 };
