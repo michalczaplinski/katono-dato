@@ -153,10 +153,8 @@ class CartPage extends Component {
               <HowDoesItWork>
                 <p>
                   • Fill out your details and press <Bold>"BUY IT"</Bold> to
-                  confirm your order.
-                </p>
-                <p>
-                  • We{"'"}ll be in touch right away to confirm your purchase 🙋
+                  confirm your order. We{"'"}ll be in touch right away to
+                  confirm your purchase 🙋
                 </p>
                 <p>
                   • You can pay either by <Bold> cash </Bold> or
@@ -166,8 +164,9 @@ class CartPage extends Component {
                   • You can pick up from <Bold>Diamond Plaza</Bold> in Nairobi
                   or from an arranged location in <Bold>CBD</Bold>.
                 </p>
-                <p>• We deliver anywhere within Nairobi!</p>
-                <p>• Delivery is extra 250 Ksh ☝️</p>
+                <p>
+                  • We deliver anywhere within Kenya for an extra 250 Ksh ☝️
+                </p>
                 <p>
                   • Please pay within 48h or we'll be have to cancel your order
                   :) 🙏
