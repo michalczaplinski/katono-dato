@@ -6,7 +6,7 @@ Add an `.env` file containing the read-only API token of your DatoCMS site:
 echo 'DATO_API_TOKEN=abc123' >> .env
 ```
 
-Then, you know the drill: 
+Afterwards, you know the drill: 
 
 ```
 yarn install
