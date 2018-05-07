@@ -1,4 +1,3 @@
-/* global Raven */
 import { createStore as reduxCreateStore } from "redux";
 import { uniq } from "lodash";
 import localStore from "store";
@@ -7,6 +6,11 @@ import { noop } from "../util";
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "SYNC_STORE_WITH_DATOCMS_DATA":
+      console.log("syncing...");
+      return Object.assign({}, state, {
+        cart: action.cart
+      });
     case "ADD_ITEM_TO_CART":
       return Object.assign({}, state, {
         cart: uniq([action.id, ...state.cart])
