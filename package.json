@@ -5,6 +5,7 @@
   "author": "Michal Czaplinski <mmczaplinski@gmail.com>",
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "dotenv": "4.0.0",
     "gatsby": "^1.9.237",
     "gatsby-image": "1.0.27",
