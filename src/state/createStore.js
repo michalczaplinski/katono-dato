@@ -3,6 +3,8 @@ import { createStore as reduxCreateStore } from "redux";
 import { uniq } from "lodash";
 import localStore from "store";
 
+import { noop } from "../util";
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "ADD_ITEM_TO_CART":
@@ -27,7 +29,7 @@ if (typeof window !== `undefined`) {
   try {
     persistedCart = JSON.parse(localStore.get("cart"));
   } catch (e) {
-    Raven.captureException(e);
+    noop(e);
   }
 }
 

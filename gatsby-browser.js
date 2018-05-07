@@ -1,4 +1,6 @@
 /* global window, CustomEvent, Raven */
+import "babel-polyfill";
+
 import React, { createElement } from "react";
 import { Router } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -11,7 +13,9 @@ import createStore from "./src/state/createStore";
 const store = createStore();
 store.subscribe(() => {
   try {
-    localStore.set("cart", JSON.stringify(store.getState().cart));
+    const { cart } = store.getState();
+    const cartString = JSON.stringify(cart);
+    localStore.set("cart", cartString);
   } catch (e) {
     Raven.capturException(e);
   }
