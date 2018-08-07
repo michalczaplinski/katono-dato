@@ -10,6 +10,7 @@ const Box = styled.div`
 `;
 
 const Grid = styled.div`
+  max-width: 960px;
   column-gap: 1em;
 
   @media (min-width: 300px) {
