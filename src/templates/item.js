@@ -4,10 +4,10 @@ import { connect } from "react-redux";
 import Img from "gatsby-image";
 import styled, { css } from "styled-components";
 
-
 import AddToCartButton from "../components/CartButton";
 
 const ItemContainer = styled.article`
+  width: 100%;
   max-width: 500px;
   display: flex;
   flex-flow: column;
@@ -35,7 +35,7 @@ const StyledImages = styled.div`
   width: auto;
   margin-bottom: 15px;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   justify-content: center;
 `;
 
@@ -48,11 +48,11 @@ const ImageWrapper = styled.div`
 `;
 
 const Gallery = styled.div`
-  max-width: 100px;
+  margin-top: 15px;
+  height: 100%;
   width: 100%;
   display: flex;
-  flex-flow: column nowrap;
-  margin-left: 10px;
+  flex-flow: row nowrap;
 `;
 
 const GalleryImage = styled.div`
