@@ -2,6 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled, { injectGlobal } from "styled-components";
 import SwipeableViews from "react-swipeable-views";
+import { autoPlay } from "react-swipeable-views-utils";
+
+const Carousel = autoPlay(SwipeableViews);
+
 import Img from "gatsby-image";
 import chunk from "lodash.chunk";
 
@@ -58,7 +62,7 @@ class IndexPage extends React.Component {
     return (
       <div>
         <CarouselWrapper>
-          <SwipeableViews index={0}>
+          <Carousel>
             {featuredItems.map((featured, index) => (
               <CarouselItemsContainer key={index}>
                 {featured.map(({ node }) => (
@@ -71,7 +75,7 @@ class IndexPage extends React.Component {
                 ))}
               </CarouselItemsContainer>
             ))}
-          </SwipeableViews>
+          </Carousel>
         </CarouselWrapper>
         <Grid>
           {data.allDatoCmsClothingItem.edges.map(({ node: item }) => (
