@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Img from "gatsby-image";
 import styled, { css } from "styled-components";
 
-import pageTransition from "../styles/pageTransition";
+
 import AddToCartButton from "../components/CartButton";
 
 const ItemContainer = styled.article`
@@ -148,9 +148,7 @@ const mapDispatchToProps = dispatch => ({
   addItemToCart: id => dispatch({ type: "ADD_ITEM_TO_CART", id })
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  pageTransition(Item)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(Item);
 
 export const query = graphql`
   query ClothingItemQuery($slug: String!) {

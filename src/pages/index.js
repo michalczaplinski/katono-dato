@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Grid, Box } from "../components/Grid";
 import ItemCard from "../components/ItemCard";
-import pageTransition from "../styles/pageTransition";
 
 const IndexPage = ({ data }) => (
   <Grid>
@@ -14,7 +13,7 @@ const IndexPage = ({ data }) => (
   </Grid>
 );
 
-export default pageTransition(IndexPage);
+export default IndexPage;
 
 export const query = graphql`
   query IndexQuery {
