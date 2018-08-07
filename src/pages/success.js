@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import styled, { css } from "styled-components";
 import { navigateTo } from "gatsby-link";
 
-import pageTransition from "../styles/pageTransition";
 import CartButton from "../components/CartButton";
 
 const SuccessPageContainer = styled.div`
@@ -62,4 +61,4 @@ class SuccessPage extends React.Component {
 
 const mapStateToProps = ({ cart }) => ({ cart });
 
-export default connect(mapStateToProps, null)(pageTransition(SuccessPage));
+export default connect(mapStateToProps, null)(SuccessPage);

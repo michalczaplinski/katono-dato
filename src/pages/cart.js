@@ -5,7 +5,6 @@ import Img from "gatsby-image";
 import styled from "styled-components";
 import { TransitionGroup } from "react-transition-group";
 
-import pageTransition from "../styles/pageTransition";
 import colors from "../styles/colors";
 import trashIcon from "../static/trash.svg";
 import CartButton from "../components/CartButton";
@@ -143,9 +142,7 @@ const mapDispatchToProps = dispatch => ({
   removeItemFromCart: id => dispatch({ type: "REMOVE_ITEM_FROM_CART", id })
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  pageTransition(CartPage)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
 
 export const query = graphql`
   query CartQuery {
